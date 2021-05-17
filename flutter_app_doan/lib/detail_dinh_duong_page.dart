@@ -134,7 +134,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                        margin: const EdgeInsets.only(top: 20),
                         child: Column(
                           children: <Widget>[
                             Padding(
