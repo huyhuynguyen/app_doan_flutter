@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 
+import 'package:flutter_app_doan/models/user.dart';
 import 'input_infor.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -95,9 +97,18 @@ class secondSignIn extends StatefulWidget {
 }
 
 class _secondSignInState extends State<secondSignIn> {
+  AuthBloc authBloc = new AuthBloc();
+
   TextEditingController _phoneController=new TextEditingController();
   TextEditingController _nameController=new TextEditingController();
   TextEditingController _yearOfBirthController=new TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    authBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,41 +131,60 @@ class _secondSignInState extends State<secondSignIn> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: _phoneController,
-                        // autofocus: true,
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone,color: Colors.white,),
-                          hintText: "Nhập số điện thoại"
-                        ),
-                        keyboardType: TextInputType.phone,
+                      child: StreamBuilder(
+                        stream: authBloc.phoneStream,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            controller: _phoneController,
+                            // autofocus: true,
+                            cursorColor: Colors.white,
+                            decoration: InputDecoration(
+                              errorText: snapshot.hasError ? snapshot.error : null,
+                              prefixIcon: Icon(Icons.phone,color: Colors.white,),
+                              hintText: "Nhập số điện thoại"
+                            ),
+                            keyboardType: TextInputType.phone,
+                          );
+                        }
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: _nameController,
-                        // autofocus: true,
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.people,color: Colors.white,),
-                            hintText: "Bạn tên là gì"
-                        ),
-                        keyboardType: TextInputType.multiline,
+                      child: StreamBuilder(
+                        stream: authBloc.nameStream,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            controller: _nameController,
+                            // autofocus: true,
+                            cursorColor: Colors.white,
+                            decoration: InputDecoration(
+                                errorText: snapshot.hasError ? snapshot.error : null,
+                                prefixIcon: Icon(Icons.people,color: Colors.white,),
+                                hintText: "Bạn tên là gì"
+                            ),
+                            keyboardType: TextInputType.multiline,
+                          );
+                        }
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextFormField(
-                        controller: _yearOfBirthController,
-                        // autofocus: true,
-                        cursorColor: Colors.white,
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.people,color: Colors.white,),
-                            hintText: "Năm sinh của bạn"
-                        ),
-                        keyboardType: TextInputType.multiline,
+                      child: StreamBuilder(
+                        stream: authBloc.yearOfBirthStream,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            controller: _yearOfBirthController,
+                            // autofocus: true,
+                            cursorColor: Colors.white,
+                            decoration: InputDecoration(
+                                errorText: snapshot.hasError ? snapshot.error : null,
+                                prefixIcon: Icon(Icons.people,color: Colors.white,),
+                                hintText: "Năm sinh của bạn",
+                            ),
+
+                            keyboardType: TextInputType.number,
+                          );
+                        }
                       ),
                     ),
                     SizedBox(
@@ -166,12 +196,7 @@ class _secondSignInState extends State<secondSignIn> {
 
                         width: 300.0,
                         child: FlatButton(
-                            onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => input_infor()),
-                              );
-                            },
+                            onPressed: _onSignIn,
                             child: Text("Sign in",
                             style: TextStyle(
                               color: Colors.white
@@ -191,5 +216,19 @@ class _secondSignInState extends State<secondSignIn> {
         ],
       ),
     );
+  }
+
+  void _onSignIn() {
+    User user=new User(
+        phoneNumber: _phoneController.text.trim(),
+        name: _nameController.text.trim(),
+        yearOfBirth: _yearOfBirthController.text.trim()
+    );
+
+    if (authBloc.isValid(user)) {
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => input_infor()),
+      );
+    }
   }
 }

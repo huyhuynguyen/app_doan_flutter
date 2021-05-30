@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1033940464742",
+    "project_id": "dinhduongapp",
+    "storage_bucket": "dinhduongapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033940464742:android:c7ea8525a9f2e85e6329a7",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app_doan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1033940464742-bnuj8qp76j9q9e51nf41vtckcnseqblm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqhgrgFv2hgvwknYjwEkZ1Zkgti_Qx3T8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1033940464742-bnuj8qp76j9q9e51nf41vtckcnseqblm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

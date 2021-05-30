@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/fontelico_icons.dart';
 
-import 'models/user.dart';
+import '../../../models/user.dart';
 
 class ProfilePage extends StatelessWidget {
-  User user;
-  ProfilePage({this.user});
+  // User user;
+  // ProfilePage({this.user});
   DateTime now=new DateTime.now();
   @override
   Widget build(BuildContext context) {

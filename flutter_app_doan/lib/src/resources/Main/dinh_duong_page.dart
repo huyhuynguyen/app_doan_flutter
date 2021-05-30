@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_doan/detail_dinh_duong_page.dart';
+import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/detail_dinh_duong_page.dart';
 import 'package:flutter_app_doan/fake_data.dart';
-import 'package:flutter_app_doan/list_thuc_an.dart';
+import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/list_thuc_an.dart';
 
 class DinhDuongPage extends StatefulWidget {
   @override
@@ -10,8 +10,6 @@ class DinhDuongPage extends StatefulWidget {
 
 class _DinhDuongPageState extends State<DinhDuongPage> {
   var _searchController=TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
