@@ -140,10 +140,10 @@ class _secondSignInState extends State<secondSignIn> {
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
                               errorText: snapshot.hasError ? snapshot.error : null,
-                              prefixIcon: Icon(Icons.phone,color: Colors.white,),
-                              hintText: "Nhập số điện thoại"
+                              prefixIcon: Icon(Icons.mail_outline,color: Colors.white,),
+                              hintText: "Nhập email của bạn"
                             ),
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.multiline,
                           );
                         }
                       ),

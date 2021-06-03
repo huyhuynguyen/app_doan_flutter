@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttericon/entypo_icons.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -10,8 +11,9 @@ class HomePage extends StatelessWidget {
         ClipPath(
           clipper: MyClipper(),
           child: Container(
-            height: 250,
+            height: 245,
             width: double.infinity,
+
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topRight,
@@ -21,8 +23,12 @@ class HomePage extends StatelessWidget {
                     Color(0xFF11249F),
                   ],
               ),
+
               image: DecorationImage(
-                image: AssetImage("assets/images/virus.png"),
+                alignment: Alignment.centerLeft,
+                fit: BoxFit.contain,
+                image: AssetImage("assets/images/physical-exercise.png"
+                ),
               ),
             ),
             child: Column(
@@ -32,30 +38,18 @@ class HomePage extends StatelessWidget {
                   height: 20,
                 ),
                 Expanded(
-                  // child: Image.asset(
-                  //   'assets/images/yoga.png',
-                  //   width: 110.0,
-                  //   height: 100.0,
-                  //   fit: BoxFit.fill,
-                  //   ),
                   child: Stack(
                     children: <Widget>[
-                    // SvgPicture.asset(
-                    //     "assets/images/yoga.png",
-                    //   width: 230,
-                    //   fit: BoxFit.fitWidth,
-                    //   alignment: Alignment.topCenter,
-                    // ),
                     Positioned(
                         top: 20,
-                        left: 200,
+                        left: 290,
                         child: Text(
                           "Lượng \ncalo cần \nnạp là\n750",
                           style: kHeadingTextStyle.copyWith(
                               color: Colors.white,
-                              // fontSize: 20
+                              fontSize: 30
                           ),
-                        )
+                        ),
                     ),
                 ]
             ),
@@ -63,12 +57,75 @@ class HomePage extends StatelessWidget {
           ]
         )
       )
-      ),
-        Container(
+
+            // child: Container(
+            //   child: Row(
+            //   children: <Widget>[
+            //       RichText(
+            //           text: TextSpan(
+            //             children: [
+            //                 TextSpan(
+            //                   text: "Case Update\n",
+            //                   style: kTitleTextstyle,
+            //                 ),
+            //                 TextSpan(
+            //                   text: "Newest update March 28",
+            //                   style: TextStyle(
+            //                     color: kTextLightColor,
+            //                   ),
+            //                 ),
+            //             ],
+            //           ),
+            //       ),
+            //       Spacer(),
+            //       Text(
+            //           "See details",
+            //           style: TextStyle(
+            //           color: kPrimaryColor,
+            //           fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
+            //     ]
+            //   ),
+            // )
+        ),
+          Container(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: Column(
               children: <Widget>[
+                Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Cân nặng: 45\n",
+                                style: TextStyle(
+                                  color: Colors.blue[800],
+                                  fontSize: 17,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "Chiều cao: 152 cm",
+                                style: TextStyle(
+                                  color: Colors.blue[800],
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Spacer(),
+                      ],
+                    ),
+                    ]
+                  )
+                ),
                 SizedBox(height: 20),
                 Container(
                   padding: EdgeInsets.all(20),
@@ -188,90 +245,26 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 0),
                 Container(
+                  margin: EdgeInsets.only(top: 20),
                   padding: EdgeInsets.all(20),
+                  height: 185,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        offset: Offset(0, 4),
+                        offset: Offset(0, 10),
                         blurRadius: 30,
                         color: kShadowColor,
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(6),
-                              height: 25,
-                              width: 25,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.lightBlue[100],
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                      color: Colors.blue[800],
-                                      width: 2,
-                                    )
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "45 Kg",
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.blue[800],
-
-                              ),
-                            ),
-                            Text("Cân nặng", style: kSubTextStyle,)
-                          ]
-                      ),
-                      Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(6),
-                              height: 25,
-                              width: 25,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.lightBlue[100],
-                              ),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                      color: Colors.blue[800],
-                                      width: 2,
-                                    )
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "152 cm",
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.blue[800],
-
-                              ),
-                            ),
-                            Text("Chiều cao", style: kSubTextStyle,)
-                          ]
-                      ),
-                    ],
+                  child: Image.asset(
+                    "assets/images/banner-app.jpg",
+                    fit: BoxFit.contain,
                   ),
                 ),
               ],
