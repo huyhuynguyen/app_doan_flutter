@@ -193,7 +193,6 @@ class _secondSignInState extends State<secondSignIn> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
-
                         width: 300.0,
                         child: FlatButton(
                             onPressed: _onSignIn,
