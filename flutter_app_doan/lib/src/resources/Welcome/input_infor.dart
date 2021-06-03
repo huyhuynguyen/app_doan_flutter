@@ -2,8 +2,9 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_doan/container_main.dart';
-import 'package:flutter_app_doan/home_page.dart';
+import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/container_main.dart';
+// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/home_page.dart';
 
 import 'welcome_screen.dart';
 
