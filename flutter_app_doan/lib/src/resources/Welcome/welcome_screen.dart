@@ -103,7 +103,7 @@ class secondSignIn extends StatefulWidget {
 class _secondSignInState extends State<secondSignIn> {
   AuthBloc authBloc = new AuthBloc();
 
-  TextEditingController _phoneController=new TextEditingController();
+  TextEditingController _emailController=new TextEditingController();
   TextEditingController _nameController=new TextEditingController();
   TextEditingController _yearOfBirthController=new TextEditingController();
 
@@ -139,7 +139,7 @@ class _secondSignInState extends State<secondSignIn> {
                         stream: authBloc.phoneStream,
                         builder: (context, snapshot) {
                           return TextField(
-                            controller: _phoneController,
+                            controller: _emailController,
                             // autofocus: true,
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
@@ -248,7 +248,7 @@ class _secondSignInState extends State<secondSignIn> {
 
   void _onSignIn() {
     User user=new User(
-        email: _phoneController.text.trim(),
+        email: _emailController.text.trim(),
         name: _nameController.text.trim(),
         yearOfBirth: _yearOfBirthController.text.trim(),
         height: 0,

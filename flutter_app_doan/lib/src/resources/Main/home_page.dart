@@ -6,8 +6,10 @@ import 'package:fluttericon/entypo_icons.dart';
 
 class HomePage extends StatelessWidget {
   AuthBloc authBloc = new AuthBloc();
+
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -104,28 +106,39 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        child: Text(
-                          "Cân nặng: 45kg",
-                          style: TextStyle(
-                            color: Colors.blue[800],
-                            fontSize: 17,
-                          ),
+                        child: FutureBuilder(
+                          future: authBloc.getValueUser('weight'),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.done) {
+                              return Text(
+                                'Cân nặng: ${snapshot.data} kg',
+                                style: TextStyle(
+                                  color: Colors.blue[800],
+                                  fontSize: 17,
+                                ),
+                              );
+                            }
+                            return CircularProgressIndicator();
+                          },
                         ),
                       ),
-                      StreamBuilder(
-                        stream: authBloc.heightStream,
-                        builder: (context, snapshot) {
-                          return Container(
-                            child: Text(
-                              'Chiều cao: ${snapshot.data} cm',
-                              style: TextStyle(
-                                color: Colors.blue[800],
-                                fontSize: 17,
-                              ),
-                            ),
-                          );
-                        }
-                      ),
+                      Container(
+                        child: FutureBuilder(
+                          future: authBloc.getValueUser('height'),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.done) {
+                              return Text(
+                                'Chiều cao: ${snapshot.data} cm',
+                                style: TextStyle(
+                                  color: Colors.blue[800],
+                                  fontSize: 17,
+                                ),
+                              );
+                            }
+                            return CircularProgressIndicator();
+                          },
+                        ),
+                      )
                       ]
                     )
                   ),

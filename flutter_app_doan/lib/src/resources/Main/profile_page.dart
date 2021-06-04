@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:fluttericon/fontelico_icons.dart';
 
 import '../../../models/user.dart';
 
 class ProfilePage extends StatelessWidget {
-  // User user;
-  // ProfilePage({this.user});
+
+  AuthBloc authBloc = new AuthBloc();
+
   DateTime now=new DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -118,11 +120,19 @@ class ProfilePage extends StatelessWidget {
                                 Expanded(
                                     child: Align(
                                       alignment: Alignment.centerRight,
-                                      child: Text(
-                                        "Nguyen Van A",
-                                        style: TextStyle(
-                                            fontSize: 20
-                                        ),
+                                      child: FutureBuilder(
+                                        future: authBloc.getValueUser('name'),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState == ConnectionState.done) {
+                                            return Text(
+                                              snapshot.data,
+                                              style: TextStyle(
+                                                  fontSize: 20
+                                              ),
+                                            );
+                                          }
+                                          return CircularProgressIndicator();
+                                        },
                                       ),
                                     )
                                 )
@@ -145,11 +155,19 @@ class ProfilePage extends StatelessWidget {
                                 Expanded(
                                     child: Align(
                                       alignment: Alignment.centerRight,
-                                      child: Text(
-                                        "2000",
-                                        style: TextStyle(
-                                            fontSize: 20
-                                        ),
+                                      child: FutureBuilder(
+                                        future: authBloc.getValueUser('year of birth'),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState == ConnectionState.done) {
+                                            return Text(
+                                              snapshot.data,
+                                              style: TextStyle(
+                                                  fontSize: 20
+                                              ),
+                                            );
+                                          }
+                                          return CircularProgressIndicator();
+                                        },
                                       ),
                                     )
                                 )
@@ -303,13 +321,21 @@ class ProfilePage extends StatelessWidget {
                                         ),
                                       ),
                                       Container(
-                                        child: Text(
-                                          "45.0 kg",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 20,
-                                            color: Colors.green
-                                          ),
+                                        child: FutureBuilder(
+                                          future: authBloc.getValueUser('weight'),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState == ConnectionState.done) {
+                                              return Text(
+                                                '${snapshot.data} kg',
+                                                style: TextStyle(
+                                                    fontSize: 22,
+                                                    fontWeight: FontWeight.w900,
+                                                    color: Colors.green
+                                                ),
+                                              );
+                                            }
+                                            return CircularProgressIndicator();
+                                          },
                                         ),
                                       )
                                     ],
@@ -331,13 +357,21 @@ class ProfilePage extends StatelessWidget {
                                             ),
                                           ),
                                           Container(
-                                            child: Text(
-                                              "152.0 cm",
-                                              style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w900,
-                                                color: Colors.green
-                                              ),
+                                            child: FutureBuilder(
+                                              future: authBloc.getValueUser('height'),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState == ConnectionState.done) {
+                                                  return Text(
+                                                    '${snapshot.data} cm',
+                                                    style: TextStyle(
+                                                        fontSize: 22,
+                                                        fontWeight: FontWeight.w900,
+                                                        color: Colors.green
+                                                    ),
+                                                  );
+                                                }
+                                                return CircularProgressIndicator();
+                                              },
                                             ),
                                           )
                                         ],

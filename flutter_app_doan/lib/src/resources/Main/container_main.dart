@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
+import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
+import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
 import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -236,6 +238,7 @@ class _ContainerMainState extends State<ContainerMain> {
     ProfilePage(),
     ExercisePage()
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

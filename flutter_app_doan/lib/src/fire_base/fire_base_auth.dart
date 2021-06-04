@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class FirAuth {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   void signIn(String email, String name, String yearOfBirth, Function onSuccess, Function(String) onError) async{
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(email: email, password: "123456");
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: "123456");
       // success
       return createUserDB(userCredential.user.uid, name, yearOfBirth, onSuccess, onError);
     } on FirebaseAuthException catch (e) {
@@ -33,16 +33,17 @@ class FirAuth {
     });
   }
 
-  void login(String email, Function onSuccess) async {
+  void login(String email, Function onSuccess, Function(String) onError) async {
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: "123456");
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: "123456");
+      return onSuccess();
     }on FirebaseException catch(e) {
-
+      _onLoginErr(e.code, onError);
     }
   }
 
   void updateCurrentUser(int height, int weight, Function onSuccess) async {
-    User user = auth.currentUser;
+    User user = _auth.currentUser;
     DatabaseReference reference = FirebaseDatabase.instance.reference().child("users");
     await reference.child(user.uid).child("height").set(height).then((user) {
 
@@ -57,15 +58,20 @@ class FirAuth {
     });
   }
 
-  User get currentUser => auth.currentUser;
+  User get Usercurrent => _auth.currentUser;
 
-  // void getName() async{
-  //   User user = _auth.currentUser;
-  //   DatabaseReference reference = FirebaseDatabase.instance.reference().child("users");
-  //   await reference.child(user.uid).child('name').once().then((DataSnapshot snapshop) {
-  //     print(snapshop.value);
-  //   });
-  // }
+  // User get currentUser => auth.currentUser;
+
+  Future<dynamic> getValueUser(String key) async{
+    User user = _auth.currentUser;
+    DatabaseReference reference = FirebaseDatabase.instance.reference().child("users");
+    try {
+      DataSnapshot dataSnapshot = await reference.child(user.uid).child(key).once();
+      return dataSnapshot.value;
+    }catch(e) {
+      print(e);
+    }
+  }
 
 
   void _onSignInErr(String code, Function(String) onError) {
@@ -81,6 +87,17 @@ class FirAuth {
         break;
       default:
         onError("Sign up failed, please try again");
+        break;
+    }
+  }
+
+  void _onLoginErr(String code, Function(String p1) onError) {
+    switch(code) {
+      case "invalid-email":
+        onError("Invaid email");
+        break;
+      default:
+        onError("Login fail");
         break;
     }
   }

@@ -2,7 +2,10 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_doan/models/user.dart';
+import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+import 'package:flutter_app_doan/src/resources/dialog/msg_dialog.dart';
 
 import 'welcome_screen.dart';
 
@@ -98,8 +101,8 @@ class secondInfor extends StatefulWidget {
 }
 
 class _secondInforState extends State<secondInfor> {
-  TextEditingController _heightController = TextEditingController();
-  TextEditingController _weightController = TextEditingController();
+  AuthBloc authBloc = new AuthBloc();
+  TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +126,7 @@ class _secondInforState extends State<secondInfor> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextFormField(
-                        controller: _weightController,
+                        controller: _emailController,
                         // autofocus: true,
                         cursorColor: Colors.white,
                         decoration: InputDecoration(
@@ -142,12 +145,7 @@ class _secondInforState extends State<secondInfor> {
                         // Home(height: double.tryParse(_heightController.text) ?? 0.0, weight: double.tryParse(_weightController.text) ?? 0.0)
                         width: 300.0,
                         child: FlatButton(
-                            onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => ContainerMain()),
-                              );
-                            },
+                            onPressed: _onLogin,
                             child: Text("Đăng nhập",
                               style: TextStyle(
                                   color: Colors.white
@@ -189,5 +187,18 @@ class _secondInforState extends State<secondInfor> {
         ],
       ),
     );
+  }
+
+  void _onLogin() {
+
+    authBloc.logIn(_emailController.text.trim(), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ContainerMain()),
+      );
+    }, (msg) {
+      MsgDialog.showMsgDialog(context, "Error", msg);
+    });
+
   }
 }
