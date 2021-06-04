@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
+import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -235,7 +236,8 @@ class _ContainerMainState extends State<ContainerMain> {
   final List<Widget> _tabs=[
     HomePage(),
     DinhDuongPage(),
-    ProfilePage()
+    ProfilePage(),
+    ExercisePage()
   ];
   @override
   Widget build(BuildContext context) {
@@ -319,7 +321,8 @@ class _ContainerMainState extends State<ContainerMain> {
                   color: Colors.white,
                   fontSize: 18
               ),
-              onTap: () {}
+              onTap: () {createSimpleAlertDialog();
+              }
           ),
           SpeedDialChild(
               child: Icon(
