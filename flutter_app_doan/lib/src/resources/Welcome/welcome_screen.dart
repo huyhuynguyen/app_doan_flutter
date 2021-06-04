@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 
 import 'package:flutter_app_doan/models/user.dart';
+import 'package:flutter_app_doan/src/resources/Welcome/login.dart';
 import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
 import 'package:flutter_app_doan/src/resources/dialog/msg_dialog.dart';
 import 'input_infor.dart';
+
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -74,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                       SizedBox(
                         width: 30.0,
                       ),
-                      Text("Hãy điền đầy đủ thông tin để bắt đầu nhé <3",
+                      Text("Hãy điền đầy đủ thông tin để bắt đầu đăng ký nhé <3",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -199,7 +201,7 @@ class _secondSignInState extends State<secondSignIn> {
                         width: 300.0,
                         child: FlatButton(
                             onPressed: _onSignIn,
-                            child: Text("Sign in",
+                            child: Text("Đăng ký",
                             style: TextStyle(
                               color: Colors.white
                             ),
@@ -209,7 +211,31 @@ class _secondSignInState extends State<secondSignIn> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SizedBox(
 
+                        width: 300.0,
+                        child: FlatButton(
+                            onPressed: (){
+                                  Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => LoginPage()),
+                                  );
+                                },
+                            child: Text("Quay lại",
+                              style: TextStyle(
+                                  color: Colors.white
+                              ),
+                            ),
+                            color: Colors.blue[700],
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
