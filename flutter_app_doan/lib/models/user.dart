@@ -1,8 +1,9 @@
 class User {
   int id;
-  String phoneNumber;
+  String email;
   String name;
   String yearOfBirth;
+  int height, weight;
 
-  User({this.phoneNumber, this.name, this.yearOfBirth});
+  User({this.email, this.name, this.yearOfBirth, this.height, this.weight});
 }

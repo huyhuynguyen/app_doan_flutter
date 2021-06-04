@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/constants.dart';
+import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttericon/entypo_icons.dart';
 
 class HomePage extends StatelessWidget {
+  AuthBloc authBloc = new AuthBloc();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -98,31 +100,31 @@ class HomePage extends StatelessWidget {
                   Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: "Cân nặng: 45\n",
-                                  style: TextStyle(
-                                    color: Colors.blue[800],
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "Chiều cao: 152 cm",
-                                  style: TextStyle(
-                                    color: Colors.blue[800],
-                                    fontSize: 17,
-                                  ),
-                                ),
-                              ],
-                            ),
+                      Container(
+                        child: Text(
+                          "Cân nặng: 45kg",
+                          style: TextStyle(
+                            color: Colors.blue[800],
+                            fontSize: 17,
                           ),
-                          // Spacer(),
-                        ],
+                        ),
+                      ),
+                      StreamBuilder(
+                        stream: authBloc.heightStream,
+                        builder: (context, snapshot) {
+                          return Container(
+                            child: Text(
+                              'Chiều cao: ${snapshot.data} cm',
+                              style: TextStyle(
+                                color: Colors.blue[800],
+                                fontSize: 17,
+                              ),
+                            ),
+                          );
+                        }
                       ),
                       ]
                     )

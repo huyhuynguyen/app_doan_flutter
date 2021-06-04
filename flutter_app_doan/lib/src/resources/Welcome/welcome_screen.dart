@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 
 import 'package:flutter_app_doan/models/user.dart';
+import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
+import 'package:flutter_app_doan/src/resources/dialog/msg_dialog.dart';
 import 'input_infor.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -220,15 +222,23 @@ class _secondSignInState extends State<secondSignIn> {
 
   void _onSignIn() {
     User user=new User(
-        phoneNumber: _phoneController.text.trim(),
+        email: _phoneController.text.trim(),
         name: _nameController.text.trim(),
-        yearOfBirth: _yearOfBirthController.text.trim()
+        yearOfBirth: _yearOfBirthController.text.trim(),
+        height: 0,
+        weight: 0
     );
 
     if (authBloc.isValid(user)) {
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context) => input_infor()),
-      );
+      authBloc.signIn(user, () {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => input_infor()),
+        );
+      }, (msg) {
+        print(msg);
+        MsgDialog.showMsgDialog(context, "Error", msg);
+      });
+
     }
   }
 }

@@ -5,9 +5,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'dinh_duong_page.dart';
 import 'profile_page.dart';
-// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/dinh_duong_page.dart';
-// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/home_page.dart';
-// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/profile_page.dart';
 
 class ContainerMain extends StatefulWidget {
   @override

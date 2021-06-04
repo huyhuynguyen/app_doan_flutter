@@ -2,13 +2,13 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
-// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/container_main.dart';
-// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/home_page.dart';
 
 import 'welcome_screen.dart';
 
 class input_infor extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -100,11 +100,14 @@ class secondInfor extends StatefulWidget {
 }
 
 class _secondInforState extends State<secondInfor> {
+  AuthBloc authBloc = new AuthBloc();
+
   TextEditingController _heightController = TextEditingController();
   TextEditingController _weightController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: EdgeInsets.only(left: 35.0, right: 35.0),
       child: Stack(
@@ -160,12 +163,7 @@ class _secondInforState extends State<secondInfor> {
                         // Home(height: double.tryParse(_heightController.text) ?? 0.0, weight: double.tryParse(_weightController.text) ?? 0.0)
                         width: 300.0,
                         child: FlatButton(
-                            onPressed: (){
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => ContainerMain()),
-                              );
-                            },
+                            onPressed: _onGetToHome,
                             child: Text("Tiếp tục",
                               style: TextStyle(
                                   color: Colors.white
@@ -207,5 +205,18 @@ class _secondInforState extends State<secondInfor> {
         ],
       ),
     );
+  }
+
+  void _onGetToHome() {
+    int height=int.parse(_heightController.text);
+    int weight=int.parse(_weightController.text);
+
+    authBloc.updateCurrentUser(height, weight, () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ContainerMain()),
+      );
+    });
+
   }
 }
