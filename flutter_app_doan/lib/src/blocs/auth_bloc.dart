@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_app_doan/models/user.dart';
 
+import '../../models/user.dart';
+
 class AuthBloc {
   StreamController _phoneController= new StreamController();
   StreamController _nameController= new StreamController();

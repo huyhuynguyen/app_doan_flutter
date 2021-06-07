@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_doan/models/user.dart';
-import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
-import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+// import 'package:flutter_app_doan/models/user.dart';
+// import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
+// import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
+// import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'dinh_duong_page.dart';
+import 'exercise_page.dart';
+import 'home_page.dart';
 import 'profile_page.dart';
 // import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/dinh_duong_page.dart';
 // import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/home_page.dart';
