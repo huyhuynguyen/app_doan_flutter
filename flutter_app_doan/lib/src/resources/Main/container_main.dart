@@ -249,7 +249,7 @@ class _ContainerMainState extends State<ContainerMain> {
         child: _tabs[_currentIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        fixedColor: Colors.blue,
+        fixedColor: Colors.white,
         selectedFontSize: 15,
         unselectedFontSize: 12,
         items: [
@@ -265,6 +265,10 @@ class _ContainerMainState extends State<ContainerMain> {
               icon: Icon(Icons.person),
               label: "Profile",
               backgroundColor: Colors.blue),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.fitness_center),
+              label: "Exercise",
+              backgroundColor: Colors.blue),
         ],
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -279,6 +283,9 @@ class _ContainerMainState extends State<ContainerMain> {
                 break;
               case 2:
                 _title="Profile";
+                break;
+              case 2:
+                _title="Exercise";
                 break;
             }
           });
@@ -309,21 +316,21 @@ class _ContainerMainState extends State<ContainerMain> {
               ),
               onTap: () {}
           ),
-          SpeedDialChild(
-              child: Icon(
-                Icons.fitness_center,
-                color: Colors.white,
-              ),
-              backgroundColor: Colors.red,
-              label: "Tập luyện",
-              labelBackgroundColor: Colors.red,
-              labelStyle: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18
-              ),
-              onTap: () {createSimpleAlertDialog();
-              }
-          ),
+          // SpeedDialChild(
+          //     child: Icon(
+          //       Icons.fitness_center,
+          //       color: Colors.white,
+          //     ),
+          //     backgroundColor: Colors.red,
+          //     label: "Tập luyện",
+          //     labelBackgroundColor: Colors.red,
+          //     labelStyle: TextStyle(
+          //         color: Colors.white,
+          //         fontSize: 18
+          //     ),
+          //     onTap: () {createSimpleAlertDialog();
+          //     }
+          // ),
           SpeedDialChild(
               child: Icon(
                 Icons.calculate,
@@ -342,6 +349,6 @@ class _ContainerMainState extends State<ContainerMain> {
           ),
         ],
       ),
-    );;
+    );
   }
 }

@@ -49,7 +49,8 @@ class AuthBloc {
   }
 
   Future<dynamic> getValueUser(String key) async{
-    return await _firauth.getValueUser(key);
+    var userValue=  await _firauth.getValueUser();
+    return userValue[key];
   }
 
 

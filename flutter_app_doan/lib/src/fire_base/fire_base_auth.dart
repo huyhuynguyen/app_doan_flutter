@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class FirAuth {
   FirebaseAuth _auth = FirebaseAuth.instance;
+  var firestoreInstance = FirebaseFirestore.instance;
 
   void signIn(String email, String name, String yearOfBirth, Function onSuccess, Function(String) onError) async{
     try {
@@ -22,15 +24,19 @@ class FirAuth {
       "weight": 0
     };
 
-
-    var ref=FirebaseDatabase.instance.reference().child("users");
-    ref.child(uid).set(user).then((user) {
-      // SUCCESS
+    firestoreInstance.collection("user").doc(uid).set(user).then((value) {
       onSuccess();
     }).catchError((err) {
-      // TODO
       onError("Sign up failed, please try again");
     });
+    // var ref=FirebaseDatabase.instance.reference().child("users");
+    // ref.child(uid).set(user).then((user) {
+    //   // SUCCESS
+    //   onSuccess();
+    // }).catchError((err) {
+    //   // TODO
+    //   onError("Sign up failed, please try again");
+    // });
   }
 
   void login(String email, Function onSuccess, Function(String) onError) async {
@@ -44,33 +50,49 @@ class FirAuth {
 
   void updateCurrentUser(int height, int weight, Function onSuccess) async {
     User user = _auth.currentUser;
-    DatabaseReference reference = FirebaseDatabase.instance.reference().child("users");
-    await reference.child(user.uid).child("height").set(height).then((user) {
 
-    }).catchError((err) {
+    await firestoreInstance
+        .collection("user")
+        .doc(user.uid)
+        .update({"height": height});
 
-    });
-
-    await reference.child(user.uid).child("weight").set(weight).then((user) {
-      onSuccess();
-    }).catchError((err) {
-
-    });
+    await firestoreInstance
+        .collection("user")
+        .doc(user.uid)
+        .update({"weight": weight}).
+          then((value) => onSuccess())
+          .catchError((err) => print(err));
+    // DatabaseReference reference = FirebaseDatabase.instance.reference().child("users");
+    // await reference.child(user.uid).child("height").set(height).then((user) {
+    //
+    // }).catchError((err) {
+    //
+    // });
+    //
+    // await reference.child(user.uid).child("weight").set(weight).then((user) {
+    //   onSuccess();
+    // }).catchError((err) {
+    //
+    // });
   }
 
-  User get Usercurrent => _auth.currentUser;
-
-  // User get currentUser => auth.currentUser;
-
-  Future<dynamic> getValueUser(String key) async{
+  Future<dynamic> getValueUser() async{
     User user = _auth.currentUser;
-    DatabaseReference reference = FirebaseDatabase.instance.reference().child("users");
+    DocumentReference reference = firestoreInstance.collection("user").doc(user.uid);
     try {
-      DataSnapshot dataSnapshot = await reference.child(user.uid).child(key).once();
-      return dataSnapshot.value;
-    }catch(e) {
+      DocumentSnapshot snapshot = await reference.get();
+      return snapshot.data();
+    } catch(e) {
       print(e);
     }
+    
+    // DatabaseReference reference = FirebaseDatabase.instance.reference().child("users");
+    // try {
+    //   DataSnapshot dataSnapshot = await reference.child(user.uid).child(key).once();
+    //   return dataSnapshot.value;
+    // }catch(e) {
+    //   print(e);
+    // }
   }
 
 

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/detail_dinh_duong_page.dart';
+
 import 'package:flutter_app_doan/fake_data.dart';
 
 import 'list_exercise.dart';
 import 'list_thuc_an.dart';
-// import 'file:///D:/app_doan_flutter/flutter_app_doan/lib/src/resources/Main/list_thuc_an.dart';
 
 class ExercisePage extends StatefulWidget {
   @override
