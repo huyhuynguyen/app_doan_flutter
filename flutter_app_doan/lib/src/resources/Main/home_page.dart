@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/constants.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
@@ -47,78 +48,45 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     child: Column(
-
-                        children: <Widget>[
-                          SizedBox(
-                            height: 20,
+                      children: <Widget>[
+                        SizedBox(height: 20),
+                        Expanded(
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                top: 20,
+                                left: 290,
+                                child: Text(
+                                  "Lượng \ncalo cần \nnạp là\n750",
+                                style: kHeadingTextStyle.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 25
+                                ),
+                              ),
+                             ),
+                            ]
                           ),
-                          Expanded(
-                            child: Stack(
-                                children: <Widget>[
-                                  Positioned(
-                                    top: 20,
-                                    left: 290,
-                                    child: Text(
-                                      "Lượng \ncalo cần \nnạp là\n750",
-                                      style: kHeadingTextStyle.copyWith(
-                                          color: Colors.white,
-                                          fontSize: 30
-                                      ),
-                                    ),
-                                  ),
-                                ]
-                            ),
-                          ),
-                        ]
+                        ),
+                      ]
                     )
                 )
-
-              // child: Container(
-              //   child: Row(
-              //   children: <Widget>[
-              //       RichText(
-              //           text: TextSpan(
-              //             children: [
-              //                 TextSpan(
-              //                   text: "Case Update\n",
-              //                   style: kTitleTextstyle,
-              //                 ),
-              //                 TextSpan(
-              //                   text: "Newest update March 28",
-              //                   style: TextStyle(
-              //                     color: kTextLightColor,
-              //                   ),
-              //                 ),
-              //             ],
-              //           ),
-              //       ),
-              //       Spacer(),
-              //       Text(
-              //           "See details",
-              //           style: TextStyle(
-              //           color: kPrimaryColor,
-              //           fontWeight: FontWeight.w600,
-              //         ),
-              //       ),
-              //     ]
-              //   ),
-              // )
-            ),
-            SingleChildScrollView(
-              physics: ScrollPhysics(),
-              child: Column(
-                children: [
-                  Container(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Column(
+              ),
+            Container(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Column( 
+                children: <Widget>[
+                  Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
                             Container(
                               child: FutureBuilder(
                                 future: authBloc.getValueUser('weight'),
@@ -128,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                                       'Cân nặng: ${snapshot.data} kg',
                                       style: TextStyle(
                                         color: Colors.blue[800],
-                                        fontSize: 17,
+                                        fontSize: 20,
                                       ),
                                     );
                                   }
@@ -136,6 +104,7 @@ class _HomePageState extends State<HomePage> {
                                 },
                               ),
                             ),
+                            SizedBox(height: 5,),
                             Container(
                               child: FutureBuilder(
                                 future: authBloc.getValueUser('height'),
@@ -145,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                                       'Chiều cao: ${snapshot.data} cm',
                                       style: TextStyle(
                                         color: Colors.blue[800],
-                                        fontSize: 17,
+                                        fontSize: 20,
                                       ),
                                     );
                                   }
@@ -154,8 +123,84 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )
                             ]
-                          )
-                        ),
+                          ),
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        offset: Offset(0, 4),
+                                        blurRadius: 30,
+                                        color: kShadowColor,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Column(
+                                        children: <Widget>[
+                                          // SizedBox(height: 10),
+                                           Container(
+                                            child: FutureBuilder(
+                                                future: authBloc.getValueUser('weight'),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.done) {
+                                                    return Text(
+                                                      '${snapshot.data}',
+                                                      style: TextStyle(
+                                                        color: Colors.deepOrangeAccent,
+                                                        fontSize: 35,
+                                                      ),
+                                                    );
+                                                  }
+                                                  return CircularProgressIndicator();
+                                              },
+                                            ),
+                                          ),
+                                          Container(
+                                              child: FutureBuilder(
+                                                future: authBloc.getValueUser('height'),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot.connectionState == ConnectionState.done) {
+                                                    return Padding(
+                                                      padding: const EdgeInsets.only(left: 5.0),
+                                                      child: Text(
+                                                        'calo day',
+                                                        style: TextStyle(
+                                                          color: Colors.red,
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                  return CircularProgressIndicator();
+                                                },
+                                              ),
+                                            )
+                                    ],
+                                  ),
+                                  ]
+                                  ),
+                                ),
+                              ]
+                          ),
+                        ],
+                      ),
+                    )
+                  ),
+                  SizedBox(height: 5),
+                  Container(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: Column(
+                      children: <Widget>[
                         SizedBox(height: 20),
                         Container(
                           padding: EdgeInsets.all(20),
@@ -285,7 +330,10 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(height: 15),
                         Container(
                           child: Text(
-                              "Thức ăn"
+                              "Nhật ký trong ngày",
+                            style: TextStyle(
+                              fontSize: 20
+                            ),
                           ),
                         ),
                         ListThucAnUser(),
@@ -317,218 +365,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            // Expanded(
-            //     child: ListThucAnUser()
-            // ),
-            // SingleChildScrollView(
-            //     child: Container(
-            //     child: Padding(
-            //       padding: EdgeInsets.symmetric(horizontal: 5),
-            //       child: Column(
-            //         children: <Widget>[
-            //           Padding(
-            //           padding: EdgeInsets.symmetric(horizontal: 10),
-            //             child: Column(
-            //               mainAxisAlignment: MainAxisAlignment.start,
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: <Widget>[
-            //               Container(
-            //                 child: FutureBuilder(
-            //                   future: authBloc.getValueUser('weight'),
-            //                   builder: (context, snapshot) {
-            //                     if (snapshot.connectionState == ConnectionState.done) {
-            //                       return Text(
-            //                         'Cân nặng: ${snapshot.data} kg',
-            //                         style: TextStyle(
-            //                           color: Colors.blue[800],
-            //                           fontSize: 17,
-            //                         ),
-            //                       );
-            //                     }
-            //                     return CircularProgressIndicator();
-            //                   },
-            //                 ),
-            //               ),
-            //               Container(
-            //                 child: FutureBuilder(
-            //                   future: authBloc.getValueUser('height'),
-            //                   builder: (context, snapshot) {
-            //                     if (snapshot.connectionState == ConnectionState.done) {
-            //                       return Text(
-            //                         'Chiều cao: ${snapshot.data} cm',
-            //                         style: TextStyle(
-            //                           color: Colors.blue[800],
-            //                           fontSize: 17,
-            //                         ),
-            //                       );
-            //                     }
-            //                     return CircularProgressIndicator();
-            //                   },
-            //                 ),
-            //               )
-            //               ]
-            //             )
-            //           ),
-            //           SizedBox(height: 20),
-            //           Container(
-            //             padding: EdgeInsets.all(20),
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(20),
-            //               color: Colors.white,
-            //               boxShadow: [
-            //                 BoxShadow(
-            //                   offset: Offset(0, 4),
-            //                   blurRadius: 30,
-            //                   color: kShadowColor,
-            //                 ),
-            //               ],
-            //             ),
-            //             child: Row(
-            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //               children: <Widget>[
-            //                 Column(
-            //                     children: <Widget>[
-            //                       Container(
-            //                         padding: EdgeInsets.all(6),
-            //                         height: 25,
-            //                         width: 25,
-            //                         decoration: BoxDecoration(
-            //                           shape: BoxShape.circle,
-            //                           color: kInfectedColor.withOpacity(.26),
-            //                         ),
-            //                         child: Container(
-            //                           decoration: BoxDecoration(
-            //                             shape: BoxShape.circle,
-            //                             color: Colors.transparent,
-            //                             border: Border.all(
-            //                               color: kInfectedColor,
-            //                               width: 2,
-            //                             )
-            //                           ),
-            //                         ),
-            //                       ),
-            //                       SizedBox(height: 10),
-            //                       FutureBuilder(
-            //                         future: calcBloc.BMICalc(),
-            //                         builder: (context, snapshot) {
-            //                           if (snapshot.connectionState == ConnectionState.done) {
-            //                             return Text(
-            //                               snapshot.data.toString(),
-            //                               style: TextStyle(
-            //                                 fontSize: 25,
-            //                                 color: kInfectedColor,
-            //                               ),
-            //                             );
-            //                           }
-            //                           return CircularProgressIndicator();
-            //                         },
-            //                       ),
-            //                       Text("BMI", style: kSubTextStyle,)
-            //                     ]
-            //                 ),
-            //                 Column(
-            //                     children: <Widget>[
-            //                       Container(
-            //                         padding: EdgeInsets.all(6),
-            //                         height: 25,
-            //                         width: 25,
-            //                         decoration: BoxDecoration(
-            //                           shape: BoxShape.circle,
-            //                           color: Colors.lightBlue[100],
-            //                         ),
-            //                         child: Container(
-            //                           decoration: BoxDecoration(
-            //                             shape: BoxShape.circle,
-            //                             color: Colors.transparent,
-            //                               border: Border.all(
-            //                               color:  Colors.blue[800],
-            //                               width: 2,
-            //                               )
-            //                           ),
-            //                         ),
-            //                       ),
-            //                       SizedBox(height: 10),
-            //                       Text(
-            //                         "527.0",
-            //                         style: TextStyle(
-            //                           fontSize: 25,
-            //                           color: Colors.blue[800],
-            //
-            //                         ),
-            //                       ),
-            //                       Text("BMR", style: kSubTextStyle,)
-            //                     ]
-            //                 ),
-            //                 Column(
-            //                     children: <Widget>[
-            //                       Container(
-            //                         padding: EdgeInsets.all(6),
-            //                         height: 25,
-            //                         width: 25,
-            //                         decoration: BoxDecoration(
-            //                           shape: BoxShape.circle,
-            //                           color: kInfectedColor.withOpacity(.26),
-            //                         ),
-            //                         child: Container(
-            //                           decoration: BoxDecoration(
-            //                             shape: BoxShape.circle,
-            //                               color: Colors.transparent,
-            //                               border: Border.all(
-            //                                 color: kInfectedColor,
-            //                                 width: 2,
-            //                               )
-            //                           ),
-            //                           ),
-            //                         ),
-            //                       SizedBox(height: 10),
-            //                       Text(
-            //                         "632.0",
-            //                         style: TextStyle(
-            //                           fontSize: 25,
-            //                           color: kInfectedColor,
-            //
-            //                         ),
-            //                       ),
-            //                       Text("TDEE", style: kSubTextStyle,)
-            //                     ]
-            //                 ),
-            //               ],
-            //             ),
-            //           ),
-            //           SizedBox(height: 5),
-            //           Container(
-            //             margin: EdgeInsets.only(top: 20),
-            //             padding: EdgeInsets.all(20),
-            //             height: 185,
-            //             width: double.infinity,
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(20),
-            //               color: Colors.white,
-            //               boxShadow: [
-            //                 BoxShadow(
-            //                   offset: Offset(0, 10),
-            //                   blurRadius: 30,
-            //                   color: kShadowColor,
-            //                 ),
-            //               ],
-            //             ),
-            //             child: Image.asset(
-            //               "assets/images/banner-app.jpg",
-            //               fit: BoxFit.contain,
-            //             ),
-            //           ),
-            //           // Expanded(
-            //           //     child: ListThucAnUser()
-            //           // ),
-            //         ],
-            //       ),
-            //     ),
-            // ),
-            //   ),
-          //type here
-        ]
         ),
-      ),
+          ]
+        ),
+      )
     );
   }
 }
