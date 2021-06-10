@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                             "Lượng \ncalo cần \nnạp là\n750",
                             style: kHeadingTextStyle.copyWith(
                                 color: Colors.white,
-                                fontSize: 30
+                                fontSize: 25
                             ),
                           ),
                       ),
@@ -60,88 +60,131 @@ class HomePage extends StatelessWidget {
             ),
             ]
           )
-        )
-
-              // child: Container(
-              //   child: Row(
-              //   children: <Widget>[
-              //       RichText(
-              //           text: TextSpan(
-              //             children: [
-              //                 TextSpan(
-              //                   text: "Case Update\n",
-              //                   style: kTitleTextstyle,
-              //                 ),
-              //                 TextSpan(
-              //                   text: "Newest update March 28",
-              //                   style: TextStyle(
-              //                     color: kTextLightColor,
-              //                   ),
-              //                 ),
-              //             ],
-              //           ),
-              //       ),
-              //       Spacer(),
-              //       Text(
-              //           "See details",
-              //           style: TextStyle(
-              //           color: kPrimaryColor,
-              //           fontWeight: FontWeight.w600,
-              //         ),
-              //       ),
-              //     ]
-              //   ),
-              // )
+         )
           ),
             Container(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 5),
-              child: Column(
+              child: Column( 
                 children: <Widget>[
                   Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: FutureBuilder(
-                          future: authBloc.getValueUser('weight'),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              return Text(
-                                'Cân nặng: ${snapshot.data} kg',
-                                style: TextStyle(
-                                  color: Colors.blue[800],
-                                  fontSize: 17,
-                                ),
-                              );
-                            }
-                            return CircularProgressIndicator();
-                          },
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                          Container(
+                            child: FutureBuilder(
+                              future: authBloc.getValueUser('weight'),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.done) {
+                                  return Text(
+                                    'Cân nặng: ${snapshot.data} kg',
+                                    style: TextStyle(
+                                      color: Colors.blue[800],
+                                      fontSize: 20,
+                                    ),
+                                  );
+                                }
+                                return CircularProgressIndicator();
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 5,),
+                          Container(
+                            child: FutureBuilder(
+                              future: authBloc.getValueUser('height'),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.done) {
+                                  return Text(
+                                    'Chiều cao: ${snapshot.data} cm',
+                                    style: TextStyle(
+                                      color: Colors.blue[800],
+                                      fontSize: 20,
+                                    ),
+                                  );
+                                }
+                                return CircularProgressIndicator();
+                              },
+                            ),
+                          )
+                          ]
                         ),
-                      ),
-                      Container(
-                        child: FutureBuilder(
-                          future: authBloc.getValueUser('height'),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              return Text(
-                                'Chiều cao: ${snapshot.data} cm',
-                                style: TextStyle(
-                                  color: Colors.blue[800],
-                                  fontSize: 17,
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: Offset(0, 4),
+                                      blurRadius: 30,
+                                      color: kShadowColor,
+                                    ),
+                                  ],
                                 ),
-                              );
-                            }
-                            return CircularProgressIndicator();
-                          },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Column(
+                                      children: <Widget>[
+                                        // SizedBox(height: 10),
+                                         Container(
+                                          child: FutureBuilder(
+                                              future: authBloc.getValueUser('weight'),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState == ConnectionState.done) {
+                                                  return Text(
+                                                    '${snapshot.data}',
+                                                    style: TextStyle(
+                                                      color: Colors.deepOrangeAccent,
+                                                      fontSize: 35,
+                                                    ),
+                                                  );
+                                                }
+                                                return CircularProgressIndicator();
+                                            },
+                                          ),
+                                        ),
+                                        Container(
+                                            child: FutureBuilder(
+                                              future: authBloc.getValueUser('height'),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState == ConnectionState.done) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets.only(left: 5.0),
+                                                    child: Text(
+                                                      'tiêu thụ',
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 15,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                return CircularProgressIndicator();
+                                              },
+                                            ),
+                                          )
+                                  ],
+                                ),
+                                ]
+                                ),
+                              ),
+                            ]
                         ),
-                      )
-                      ]
+                      ],
                     )
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 5),
                   Container(
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(

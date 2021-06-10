@@ -316,21 +316,6 @@ class _ContainerMainState extends State<ContainerMain> {
               ),
               onTap: () {}
           ),
-          // SpeedDialChild(
-          //     child: Icon(
-          //       Icons.fitness_center,
-          //       color: Colors.white,
-          //     ),
-          //     backgroundColor: Colors.red,
-          //     label: "Tập luyện",
-          //     labelBackgroundColor: Colors.red,
-          //     labelStyle: TextStyle(
-          //         color: Colors.white,
-          //         fontSize: 18
-          //     ),
-          //     onTap: () {createSimpleAlertDialog();
-          //     }
-          // ),
           SpeedDialChild(
               child: Icon(
                 Icons.calculate,
