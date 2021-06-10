@@ -27,4 +27,21 @@ class FireStoreList {
 
     return arr;
   }
+
+  Future<dynamic> getListExercise() async{
+    var arr =[];
+    QuerySnapshot snapshot = await _fireStoreInstance.collection("tapluyen").get();
+    final List<DocumentSnapshot> documents = snapshot.docs;
+
+    documents.forEach((element) {
+      Map<String, dynamic> dataElement = {
+        "name": element["name"],
+        "time": element["time"],
+        "calo": element["calo"]
+      };
+      arr.add(dataElement);
+    });
+
+    return arr;
+  }
 }

@@ -22,6 +22,21 @@ class ListBloc {
     return listThucAnForSearch;
   }
 
+  Future<List<dynamic>> getListExercise(String searchText) async {
+    var arr = await list.getListExercise();
+    if (searchText.trim()=="") {
+      List<dynamic> listExerciseFull = arr.toList();
+      return listExerciseFull;
+    }
+    var filterArr = [];
+    arr.forEach((exercise) {
+      if (exercise["name"].toLowerCase().contains(searchText.trim().toLowerCase()))
+        filterArr.add(exercise);
+    });
+    List<dynamic> listExerciseForSearch = filterArr.toList();
+    return listExerciseForSearch;
+  }
+
   void addListThucAnChosen(Map<String, dynamic> thucAnchosen, Function onSuccess) {
     _firAuth.addListThucAnChosen(thucAnchosen, onSuccess);
   }

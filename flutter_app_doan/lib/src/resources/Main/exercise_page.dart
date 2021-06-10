@@ -48,9 +48,9 @@ class _ExercisePageState extends State<ExercisePage> {
               ),
             ),
           ),
-          // Expanded(
-          //     child: ListExercise(searchText: _searchController.text)
-          // )
+          Expanded(
+              child: ListExercise(searchText: _searchController.text)
+          )
         ],
       ),
     );

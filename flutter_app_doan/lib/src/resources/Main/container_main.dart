@@ -244,7 +244,7 @@ class _ContainerMainState extends State<ContainerMain> {
     HomePage(),
     DinhDuongPage(),
     ProfilePage(),
-    ListThucAnUser()
+    ExercisePage()
   ];
 
   @override
