@@ -4,12 +4,16 @@ import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
 import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
+import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'dinh_duong_page.dart';
 import 'profile_page.dart';
 
 class ContainerMain extends StatefulWidget {
+  // int indexTab;
+  // ContainerMain({this.indexTab});
+
   @override
   _ContainerMainState createState() => _ContainerMainState();
 }
@@ -17,9 +21,13 @@ class ContainerMain extends StatefulWidget {
 class _ContainerMainState extends State<ContainerMain> {
   int _currentIndex = 0;
   String _title="Home Page";
+  TextEditingController _heightController = new TextEditingController();
+  TextEditingController _weightController = new TextEditingController();
+
+  AuthBloc authBloc = new AuthBloc();
 
   createSimpleAlertDialog() {
-    showDialog(context: context, builder: (context) {
+    showDialog(context: context, useRootNavigator: false, builder: (context) {
       return Dialog(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
@@ -78,6 +86,7 @@ class _ContainerMainState extends State<ContainerMain> {
                                   margin: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                                   width: 40,
                                   child: TextField(
+                                    controller: _weightController,
                                     style: TextStyle(
                                         fontSize: 16
                                     ),
@@ -131,6 +140,7 @@ class _ContainerMainState extends State<ContainerMain> {
                                   margin: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                                   width: 40,
                                   child: TextField(
+                                    controller: _heightController,
                                     style: TextStyle(
                                         fontSize: 16
                                     ),
@@ -213,9 +223,7 @@ class _ContainerMainState extends State<ContainerMain> {
                   width: 120,
                   height: 50,
                   child: ElevatedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: onUpdateBMI,
                       child: Text(
                         "Tính BMI",
                         style: TextStyle(
@@ -236,7 +244,7 @@ class _ContainerMainState extends State<ContainerMain> {
     HomePage(),
     DinhDuongPage(),
     ProfilePage(),
-    ExercisePage()
+    ListThucAnUser()
   ];
 
   @override
@@ -244,6 +252,12 @@ class _ContainerMainState extends State<ContainerMain> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_title),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.settings),
+              onPressed: () {}
+          )
+        ],
       ),
       body: Center(
         child: _tabs[_currentIndex],
@@ -350,5 +364,13 @@ class _ContainerMainState extends State<ContainerMain> {
         ],
       ),
     );
+  }
+
+  void onUpdateBMI() {
+    authBloc.updateCurrentUser(int.parse(_heightController.text), int.parse(_weightController.text), () {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => ContainerMain())
+      );
+    });
   }
 }

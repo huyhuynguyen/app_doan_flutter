@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
+import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
 import 'package:fluttericon/fontelico_icons.dart';
 
 import '../../../models/user.dart';
@@ -7,6 +8,7 @@ import '../../../models/user.dart';
 class ProfilePage extends StatelessWidget {
 
   AuthBloc authBloc = new AuthBloc();
+  CalcBloc calcBloc = new CalcBloc();
 
   DateTime now=new DateTime.now();
   @override
@@ -260,13 +262,21 @@ class ProfilePage extends StatelessWidget {
                                         ),
                                       ),
                                       Container(
-                                        child: Text(
-                                          "22.5",
-                                          style: TextStyle(
-                                            color: Colors.blue,
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 25
-                                          ),
+                                        child: FutureBuilder(
+                                          future: calcBloc.BMICalc(),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState == ConnectionState.done) {
+                                              return Text(
+                                                snapshot.data.toString(),
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontWeight: FontWeight.w900,
+                                                    fontSize: 25
+                                                ),
+                                              );
+                                            }
+                                            return CircularProgressIndicator();
+                                          },
                                         ),
                                       )
                                     ],

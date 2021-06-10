@@ -16,6 +16,7 @@ class input_infor extends StatelessWidget {
         .size;
     //this size provide us total height and width of our screen
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Material(
         child: Stack(
           children: <Widget>[

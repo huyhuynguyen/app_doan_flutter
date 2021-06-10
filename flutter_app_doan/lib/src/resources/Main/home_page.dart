@@ -1,66 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/constants.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
+import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
+import 'package:flutter_app_doan/src/resources/Main/list_thuc_an.dart';
+import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttericon/entypo_icons.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   AuthBloc authBloc = new AuthBloc();
+
+  CalcBloc calcBloc = new CalcBloc();
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          ClipPath(
-            clipper: MyClipper(),
-            child: Container(
-              height: 245,
-              width: double.infinity,
+    return Container(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            ClipPath(
+                clipper: MyClipper(),
+                child: Container(
+                    height: 300,
+                    width: double.infinity,
 
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [
-                      Color(0xFF3383CD),
-                      Color(0xFF11249F),
-                    ],
-                ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [
+                          Color(0xFF3383CD),
+                          Color(0xFF11249F),
+                        ],
+                      ),
 
-                image: DecorationImage(
-                  alignment: Alignment.centerLeft,
-                  fit: BoxFit.contain,
-                  image: AssetImage("assets/images/physical-exercise.png"
-                  ),
-                ),
-              ),
-              child: Column(
+                      image: DecorationImage(
+                        alignment: Alignment.centerLeft,
+                        fit: BoxFit.contain,
+                        image: AssetImage("assets/images/physical-exercise.png"
+                        ),
+                      ),
+                    ),
+                    child: Column(
 
-                children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: Stack(
-                      children: <Widget>[
-                      Positioned(
-                          top: 20,
-                          left: 290,
-                          child: Text(
-                            "Lượng \ncalo cần \nnạp là\n750",
-                            style: kHeadingTextStyle.copyWith(
-                                color: Colors.white,
-                                fontSize: 30
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Expanded(
+                            child: Stack(
+                                children: <Widget>[
+                                  Positioned(
+                                    top: 20,
+                                    left: 290,
+                                    child: Text(
+                                      "Lượng \ncalo cần \nnạp là\n750",
+                                      style: kHeadingTextStyle.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 30
+                                      ),
+                                    ),
+                                  ),
+                                ]
                             ),
                           ),
-                      ),
-                  ]
-              ),
-            ),
-            ]
-          )
-        )
+                        ]
+                    )
+                )
 
               // child: Container(
               //   child: Row(
@@ -92,202 +103,431 @@ class HomePage extends StatelessWidget {
               //     ]
               //   ),
               // )
-          ),
-            Container(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
+            ),
+            SingleChildScrollView(
+              physics: ScrollPhysics(),
               child: Column(
-                children: <Widget>[
-                  Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                children: [
+                  Container(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: FutureBuilder(
-                          future: authBloc.getValueUser('weight'),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              return Text(
-                                'Cân nặng: ${snapshot.data} kg',
-                                style: TextStyle(
-                                  color: Colors.blue[800],
-                                  fontSize: 17,
-                                ),
-                              );
-                            }
-                            return CircularProgressIndicator();
-                          },
-                        ),
-                      ),
-                      Container(
-                        child: FutureBuilder(
-                          future: authBloc.getValueUser('height'),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState == ConnectionState.done) {
-                              return Text(
-                                'Chiều cao: ${snapshot.data} cm',
-                                style: TextStyle(
-                                  color: Colors.blue[800],
-                                  fontSize: 17,
-                                ),
-                              );
-                            }
-                            return CircularProgressIndicator();
-                          },
-                        ),
-                      )
-                      ]
-                    )
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 4),
-                          blurRadius: 30,
-                          color: kShadowColor,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(6),
-                                height: 25,
-                                width: 25,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: kInfectedColor.withOpacity(.26),
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.transparent,
-                                    border: Border.all(
-                                      color: kInfectedColor,
-                                      width: 2,
-                                    )
-                                  ),
-                                ),
+                        Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: FutureBuilder(
+                                future: authBloc.getValueUser('weight'),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
+                                    return Text(
+                                      'Cân nặng: ${snapshot.data} kg',
+                                      style: TextStyle(
+                                        color: Colors.blue[800],
+                                        fontSize: 17,
+                                      ),
+                                    );
+                                  }
+                                  return CircularProgressIndicator();
+                                },
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                "19.5",
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  color: kInfectedColor,
-
-                                ),
+                            ),
+                            Container(
+                              child: FutureBuilder(
+                                future: authBloc.getValueUser('height'),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
+                                    return Text(
+                                      'Chiều cao: ${snapshot.data} cm',
+                                      style: TextStyle(
+                                        color: Colors.blue[800],
+                                        fontSize: 17,
+                                      ),
+                                    );
+                                  }
+                                  return CircularProgressIndicator();
+                                },
                               ),
-                              Text("BMI", style: kSubTextStyle,)
+                            )
                             ]
+                          )
                         ),
-                        Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(6),
-                                height: 25,
-                                width: 25,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.lightBlue[100],
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.transparent,
-                                      border: Border.all(
-                                      color:  Colors.blue[800],
-                                      width: 2,
-                                      )
-                                  ),
-                                ),
+                        SizedBox(height: 20),
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0, 4),
+                                blurRadius: 30,
+                                color: kShadowColor,
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                "527.0",
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.blue[800],
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Column(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.all(6),
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: kInfectedColor.withOpacity(.26),
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.transparent,
+                                          border: Border.all(
+                                            color: kInfectedColor,
+                                            width: 2,
+                                          )
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    FutureBuilder(
+                                      future: calcBloc.BMICalc(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.done) {
+                                          return Text(
+                                            snapshot.data.toString(),
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              color: kInfectedColor,
+                                            ),
+                                          );
+                                        }
+                                        return CircularProgressIndicator();
+                                      },
+                                    ),
+                                    Text("BMI", style: kSubTextStyle,)
+                                  ]
+                              ),
+                              Column(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.all(6),
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.lightBlue[100],
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.transparent,
+                                            border: Border.all(
+                                            color:  Colors.blue[800],
+                                            width: 2,
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "527.0",
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.blue[800],
 
-                                ),
+                                      ),
+                                    ),
+                                    Text("BMR", style: kSubTextStyle,)
+                                  ]
                               ),
-                              Text("BMR", style: kSubTextStyle,)
-                            ]
-                        ),
-                        Column(
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.all(6),
-                                height: 25,
-                                width: 25,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: kInfectedColor.withOpacity(.26),
-                                ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                      color: Colors.transparent,
-                                      border: Border.all(
+                              Column(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: EdgeInsets.all(6),
+                                      height: 25,
+                                      width: 25,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: kInfectedColor.withOpacity(.26),
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                            color: Colors.transparent,
+                                            border: Border.all(
+                                              color: kInfectedColor,
+                                              width: 2,
+                                            )
+                                        ),
+                                        ),
+                                      ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "632.0",
+                                      style: TextStyle(
+                                        fontSize: 25,
                                         color: kInfectedColor,
-                                        width: 2,
-                                      )
-                                  ),
-                                  ),
-                                ),
-                              SizedBox(height: 10),
-                              Text(
-                                "632.0",
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  color: kInfectedColor,
 
-                                ),
+                                      ),
+                                    ),
+                                    Text("TDEE", style: kSubTextStyle,)
+                                  ]
                               ),
-                              Text("TDEE", style: kSubTextStyle,)
-                            ]
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 15),
+                        Container(
+                          child: Text(
+                              "Thức ăn"
+                          ),
+                        ),
+                        ListThucAnUser(),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.all(20),
+                          height: 185,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                offset: Offset(0, 10),
+                                blurRadius: 30,
+                                color: kShadowColor,
+                              ),
+                            ],
+                          ),
+                          child: Image.asset(
+                            "assets/images/banner-app.jpg",
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 0),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.all(20),
-                    height: 185,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 10),
-                          blurRadius: 30,
-                          color: kShadowColor,
-                        ),
-                      ],
-                    ),
-                    child: Image.asset(
-                      "assets/images/banner-app.jpg",
-                      fit: BoxFit.contain,
-                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        //type here
-      ]
+            // Expanded(
+            //     child: ListThucAnUser()
+            // ),
+            // SingleChildScrollView(
+            //     child: Container(
+            //     child: Padding(
+            //       padding: EdgeInsets.symmetric(horizontal: 5),
+            //       child: Column(
+            //         children: <Widget>[
+            //           Padding(
+            //           padding: EdgeInsets.symmetric(horizontal: 10),
+            //             child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.start,
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: <Widget>[
+            //               Container(
+            //                 child: FutureBuilder(
+            //                   future: authBloc.getValueUser('weight'),
+            //                   builder: (context, snapshot) {
+            //                     if (snapshot.connectionState == ConnectionState.done) {
+            //                       return Text(
+            //                         'Cân nặng: ${snapshot.data} kg',
+            //                         style: TextStyle(
+            //                           color: Colors.blue[800],
+            //                           fontSize: 17,
+            //                         ),
+            //                       );
+            //                     }
+            //                     return CircularProgressIndicator();
+            //                   },
+            //                 ),
+            //               ),
+            //               Container(
+            //                 child: FutureBuilder(
+            //                   future: authBloc.getValueUser('height'),
+            //                   builder: (context, snapshot) {
+            //                     if (snapshot.connectionState == ConnectionState.done) {
+            //                       return Text(
+            //                         'Chiều cao: ${snapshot.data} cm',
+            //                         style: TextStyle(
+            //                           color: Colors.blue[800],
+            //                           fontSize: 17,
+            //                         ),
+            //                       );
+            //                     }
+            //                     return CircularProgressIndicator();
+            //                   },
+            //                 ),
+            //               )
+            //               ]
+            //             )
+            //           ),
+            //           SizedBox(height: 20),
+            //           Container(
+            //             padding: EdgeInsets.all(20),
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(20),
+            //               color: Colors.white,
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                   offset: Offset(0, 4),
+            //                   blurRadius: 30,
+            //                   color: kShadowColor,
+            //                 ),
+            //               ],
+            //             ),
+            //             child: Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //               children: <Widget>[
+            //                 Column(
+            //                     children: <Widget>[
+            //                       Container(
+            //                         padding: EdgeInsets.all(6),
+            //                         height: 25,
+            //                         width: 25,
+            //                         decoration: BoxDecoration(
+            //                           shape: BoxShape.circle,
+            //                           color: kInfectedColor.withOpacity(.26),
+            //                         ),
+            //                         child: Container(
+            //                           decoration: BoxDecoration(
+            //                             shape: BoxShape.circle,
+            //                             color: Colors.transparent,
+            //                             border: Border.all(
+            //                               color: kInfectedColor,
+            //                               width: 2,
+            //                             )
+            //                           ),
+            //                         ),
+            //                       ),
+            //                       SizedBox(height: 10),
+            //                       FutureBuilder(
+            //                         future: calcBloc.BMICalc(),
+            //                         builder: (context, snapshot) {
+            //                           if (snapshot.connectionState == ConnectionState.done) {
+            //                             return Text(
+            //                               snapshot.data.toString(),
+            //                               style: TextStyle(
+            //                                 fontSize: 25,
+            //                                 color: kInfectedColor,
+            //                               ),
+            //                             );
+            //                           }
+            //                           return CircularProgressIndicator();
+            //                         },
+            //                       ),
+            //                       Text("BMI", style: kSubTextStyle,)
+            //                     ]
+            //                 ),
+            //                 Column(
+            //                     children: <Widget>[
+            //                       Container(
+            //                         padding: EdgeInsets.all(6),
+            //                         height: 25,
+            //                         width: 25,
+            //                         decoration: BoxDecoration(
+            //                           shape: BoxShape.circle,
+            //                           color: Colors.lightBlue[100],
+            //                         ),
+            //                         child: Container(
+            //                           decoration: BoxDecoration(
+            //                             shape: BoxShape.circle,
+            //                             color: Colors.transparent,
+            //                               border: Border.all(
+            //                               color:  Colors.blue[800],
+            //                               width: 2,
+            //                               )
+            //                           ),
+            //                         ),
+            //                       ),
+            //                       SizedBox(height: 10),
+            //                       Text(
+            //                         "527.0",
+            //                         style: TextStyle(
+            //                           fontSize: 25,
+            //                           color: Colors.blue[800],
+            //
+            //                         ),
+            //                       ),
+            //                       Text("BMR", style: kSubTextStyle,)
+            //                     ]
+            //                 ),
+            //                 Column(
+            //                     children: <Widget>[
+            //                       Container(
+            //                         padding: EdgeInsets.all(6),
+            //                         height: 25,
+            //                         width: 25,
+            //                         decoration: BoxDecoration(
+            //                           shape: BoxShape.circle,
+            //                           color: kInfectedColor.withOpacity(.26),
+            //                         ),
+            //                         child: Container(
+            //                           decoration: BoxDecoration(
+            //                             shape: BoxShape.circle,
+            //                               color: Colors.transparent,
+            //                               border: Border.all(
+            //                                 color: kInfectedColor,
+            //                                 width: 2,
+            //                               )
+            //                           ),
+            //                           ),
+            //                         ),
+            //                       SizedBox(height: 10),
+            //                       Text(
+            //                         "632.0",
+            //                         style: TextStyle(
+            //                           fontSize: 25,
+            //                           color: kInfectedColor,
+            //
+            //                         ),
+            //                       ),
+            //                       Text("TDEE", style: kSubTextStyle,)
+            //                     ]
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //           SizedBox(height: 5),
+            //           Container(
+            //             margin: EdgeInsets.only(top: 20),
+            //             padding: EdgeInsets.all(20),
+            //             height: 185,
+            //             width: double.infinity,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(20),
+            //               color: Colors.white,
+            //               boxShadow: [
+            //                 BoxShadow(
+            //                   offset: Offset(0, 10),
+            //                   blurRadius: 30,
+            //                   color: kShadowColor,
+            //                 ),
+            //               ],
+            //             ),
+            //             child: Image.asset(
+            //               "assets/images/banner-app.jpg",
+            //               fit: BoxFit.contain,
+            //             ),
+            //           ),
+            //           // Expanded(
+            //           //     child: ListThucAnUser()
+            //           // ),
+            //         ],
+            //       ),
+            //     ),
+            // ),
+            //   ),
+          //type here
+        ]
+        ),
       ),
     );
   }

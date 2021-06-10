@@ -17,6 +17,7 @@ class WelcomeScreen extends StatelessWidget {
         .size;
     //this size provide us total height and width of our screen
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Material(
         child: Stack(
           children: <Widget>[
@@ -256,12 +257,14 @@ class _secondSignInState extends State<secondSignIn> {
     );
 
     if (authBloc.isValid(user)) {
+      LoadingDialog.showLoadingDialog(context, "Welcome...");
       authBloc.signIn(user, () {
+        LoadingDialog.hideLoadingDialog(context);
         Navigator.push(context, MaterialPageRoute(
             builder: (context) => input_infor()),
         );
       }, (msg) {
-        print(msg);
+        LoadingDialog.hideLoadingDialog(context);
         MsgDialog.showMsgDialog(context, "Error", msg);
       });
 

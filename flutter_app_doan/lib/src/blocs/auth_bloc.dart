@@ -53,7 +53,6 @@ class AuthBloc {
     return userValue[key];
   }
 
-
   void dispose() {
     _phoneController.close();
     _nameController.close();

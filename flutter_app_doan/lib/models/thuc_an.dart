@@ -14,6 +14,4 @@ class ThucAn {
     this.carbs,
     this.calo
   });
-
-
 }

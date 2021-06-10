@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
+import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
 import 'package:flutter_app_doan/src/resources/dialog/msg_dialog.dart';
 
 import 'welcome_screen.dart';
@@ -17,6 +19,7 @@ class LoginPage extends StatelessWidget {
         .size;
     //this size provide us total height and width of our screen
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Material(
         child: Stack(
           children: <Widget>[
@@ -102,6 +105,7 @@ class secondInfor extends StatefulWidget {
 
 class _secondInforState extends State<secondInfor> {
   AuthBloc authBloc = new AuthBloc();
+  ListBloc listBloc = new ListBloc();
   TextEditingController _emailController = TextEditingController();
 
   @override
@@ -190,15 +194,16 @@ class _secondInforState extends State<secondInfor> {
   }
 
   void _onLogin() {
-
+    LoadingDialog.showLoadingDialog(context, "Welcome...");
     authBloc.logIn(_emailController.text.trim(), () {
+      LoadingDialog.hideLoadingDialog(context);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ContainerMain()),
       );
     }, (msg) {
+      LoadingDialog.hideLoadingDialog(context);
       MsgDialog.showMsgDialog(context, "Error", msg);
     });
-
   }
 }

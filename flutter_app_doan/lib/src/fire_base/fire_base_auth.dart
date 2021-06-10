@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class FirAuth {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -47,6 +46,8 @@ class FirAuth {
       _onLoginErr(e.code, onError);
     }
   }
+
+  User get getCurrentUser => _auth.currentUser;
 
   void updateCurrentUser(int height, int weight, Function onSuccess) async {
     User user = _auth.currentUser;
@@ -95,6 +96,43 @@ class FirAuth {
     // }
   }
 
+
+  Future<void> addListThucAnChosen(Map<String, dynamic> thucAnchosen, Function onSuccess) async{
+    User user = _auth.currentUser;
+    thucAnchosen["user"]=user.uid;
+    // thucAnchosen["thucanId"]=
+    await firestoreInstance.collection("user_ThucAn").add(thucAnchosen)
+        .then((value) => onSuccess());
+  }
+
+  Future<dynamic> getListThucAnForUser() async {
+    User user = _auth.currentUser;
+    var arr =[];
+    QuerySnapshot snapshot = await firestoreInstance.collection("user_ThucAn").get();
+    final List<DocumentSnapshot> documents = snapshot.docs;
+    documents.forEach((element) {
+      if (user.uid == element["user"]) {
+        Map<String, dynamic> data= {
+          "name": element["name"],
+          "soluong": element["soluong"],
+          "donvitinh": element["donvitinh"],
+          "protein": element["protein"],
+          "beo": element["beo"],
+          "carbs": element["carbs"],
+          "calo": element["calo"],
+          "user": element["user"]
+        };
+
+        arr.add(data);
+      }
+    });
+    return arr;
+  }
+
+  Future<void> UpdateThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) async{
+    User user = _auth.currentUser;
+    // Query query = await firestoreInstance.collection("user_ThucAn").where("user")
+  }
 
   void _onSignInErr(String code, Function(String) onError) {
     switch(code) {

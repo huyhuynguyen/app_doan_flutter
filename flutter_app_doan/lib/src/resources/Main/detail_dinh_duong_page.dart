@@ -1,23 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/thuc_an.dart';
+import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
+import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
+import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
+
 
 class DetailDinhDuongPage extends StatefulWidget {
-  ThucAn food;
-  DetailDinhDuongPage({this.food});
+  Map<String, dynamic> food;
+  String btnTitle;
+  String keyFunctionBtn;
+  DetailDinhDuongPage({this.food, this.btnTitle, this.keyFunctionBtn});
 
   @override
   _DetailDinhDuongPageState createState() => _DetailDinhDuongPageState();
 }
 
 class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
+  CalcBloc calcBloc = new CalcBloc();
+  ListBloc listBloc = new ListBloc();
+
   // get instance food variable
-  TextEditingController get _soluongController => TextEditingController(text: widget.food.soluong.toString());
+  TextEditingController get _soluongController => TextEditingController(text: widget.food["soluong"].toString());
+  double get proteinIni => widget.food["protein"]+.0;
+  double get beoIni => widget.food["beo"]+.0;
+  double get carbsIni => widget.food["carbs"]+.0;
+  int get caloIni => widget.food["calo"];
+
+  Map<String, dynamic> maps;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    maps= new Map.from(widget.food);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    calcBloc.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.widget.food.name),
+        title: Text(this.widget.food["name"]),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -64,6 +94,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                                 ],
                               ),
                               child: TextField(
+                                onChanged: _onCountChange,
                                 style: TextStyle(
                                   fontSize: 18
                                 ),
@@ -80,7 +111,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5)
                             ),
                             Text(
-                              this.widget.food.donvitinh,
+                              this.widget.food["donvitinh"],
                               style: TextStyle(
                                 fontSize: 20
                               ),
@@ -88,11 +119,17 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                             Expanded(
                                 child: Align(
                                   alignment: Alignment.centerRight,
-                                  child: Text(
-                                    '${this.widget.food.calo} calo',
-                                    style: TextStyle(
-                                        fontSize: 20
-                                    ),
+                                  child: StreamBuilder(
+                                    stream: calcBloc.caloStream,
+                                    builder: (context, snapshot) {
+                                      return Text(
+                                        '${_onChangeDataOrNot(snapshot, this.widget.food["calo"], "calo")} calo',
+                                        // '${snapshot.hasData ? snapshot.data : this.widget.food["calo"]} calo',
+                                        style: TextStyle(
+                                            fontSize: 20
+                                        ),
+                                      );
+                                    }
                                   ),
                                 )
                             )
@@ -143,7 +180,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                                 children: <Widget>[
                                   Container(
                                     child: Text(
-                                      "Đạm",
+                                      "Protein",
                                       style: TextStyle(
                                           fontSize: 20
                                       ),
@@ -152,11 +189,17 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                                   Expanded(
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                          '${this.widget.food.dam} g',
-                                          style: TextStyle(
-                                            fontSize: 20
-                                          ),
+                                        child: StreamBuilder(
+                                          stream: calcBloc.proteinStream,
+                                          builder: (context, snapshot) {
+                                            return Text(
+                                              '${_onChangeDataOrNot(snapshot, this.widget.food["protein"], "protein")} g',
+                                              // '${snapshot.hasData ? snapshot.data : this.widget.food["protein"]} g',
+                                              style: TextStyle(
+                                                fontSize: 20
+                                              ),
+                                            );
+                                          }
                                         ),
                                       )
                                   )
@@ -178,11 +221,17 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                                   Expanded(
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                          '${this.widget.food.beo} g',
-                                          style: TextStyle(
-                                              fontSize: 20
-                                          ),
+                                        child: StreamBuilder(
+                                          stream: calcBloc.beoStream,
+                                          builder: (context, snapshot) {
+                                            return Text(
+                                              '${_onChangeDataOrNot(snapshot, this.widget.food["beo"], "beo")} g',
+                                              // '${snapshot.hasData ? snapshot.data : this.widget.food["beo"]} g',
+                                              style: TextStyle(
+                                                  fontSize: 20
+                                              ),
+                                            );
+                                          }
                                         ),
                                       )
                                   )
@@ -204,11 +253,17 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                                   Expanded(
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                          '${this.widget.food.carbs} g',
-                                          style: TextStyle(
-                                              fontSize: 20
-                                          ),
+                                        child: StreamBuilder(
+                                          stream: calcBloc.carbsStream,
+                                          builder: (context, snapshot) {
+                                            return Text(
+                                              '${_onChangeDataOrNot(snapshot, this.widget.food["carbs"], "carbs")} g',
+                                              // '${snapshot.hasData ? snapshot.data : this.widget.food["carbs"]} g',
+                                              style: TextStyle(
+                                                  fontSize: 20
+                                              ),
+                                            );
+                                          }
                                         ),
                                       )
                                   )
@@ -231,11 +286,9 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                           borderRadius: BorderRadius.circular(30)
                         )
                       ),
-                      onPressed: () {
-
-                      },
+                      onPressed: this.widget.keyFunctionBtn == "Add" ? _onAddToDiary : _onUpdateToDiary,
                       child: Text(
-                          "Thêm vào nhật ký",
+                          '${this.widget.btnTitle}',
                         style: TextStyle(
                           fontSize: 22
                         ),
@@ -250,4 +303,33 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
       ),
     );
   }
+
+  void _onCountChange(String value) {
+    calcBloc.CalcTPDinhDuong(widget.food["soluong"]+.0, double.tryParse(value) ?? 0.0, proteinIni, beoIni, carbsIni, caloIni);
+    maps["soluong"]=double.tryParse(value) ?? 0.0;
+  }
+
+  String _onChangeDataOrNot(AsyncSnapshot<dynamic> snapshot, dynamic value, String key) {
+    if (snapshot.hasData) {
+      key == "calo" ? maps[key]= int.parse(snapshot.data) : maps[key]= double.parse(snapshot.data);
+      return snapshot.data;
+    }
+    return value.toString();
+  }
+
+  void _onAddToDiary() {
+    // print(maps.toString());
+    listBloc.addListThucAnChosen(maps, () {
+      Navigator.pop(context);
+    });
+  }
+
+  void _onUpdateToDiary() {
+    print(maps.toString());
+
+    // Navigator.of(context).push(
+    //     MaterialPageRoute(builder: (context) => ContainerMain())
+    // );
+  }
+
 }

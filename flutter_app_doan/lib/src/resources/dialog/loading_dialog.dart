@@ -5,6 +5,7 @@ class LoadingDialog {
     showDialog(
         context: context,
         barrierDismissible: false,
+        useRootNavigator: false,
         builder: (context) => new Dialog(
               child: Container(
                 color: Colors.white,
