@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
+import 'package:flutter_app_doan/src/resources/Main/ThemThucDon.dart';
 import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
@@ -168,53 +169,6 @@ class _ContainerMainState extends State<ContainerMain> {
                         ],
                       ),
                     ),
-                    // Container(
-                    //   margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                    //   child: Column(
-                    //     children: [
-                    //       Align(
-                    //         alignment: Alignment.centerLeft,
-                    //         child: Text(
-                    //           "Nhóm vận động",
-                    //           style: TextStyle(
-                    //               fontSize: 18
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       Column(
-                    //         children: [
-                    //           ListTile(
-                    //             title: Text(
-                    //               "Vận động ít",
-                    //               style: TextStyle(
-                    //                   fontSize: 18
-                    //               ),
-                    //             ),
-                    //             leading: Radio(
-                    //
-                    //             ),
-                    //           ),
-                    //           ListTile(
-                    //             title: Text(
-                    //               "Vận động trung bình",
-                    //               style: TextStyle(
-                    //                   fontSize: 18
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           ListTile(
-                    //             title: Text(
-                    //               "Vận động cao",
-                    //               style: TextStyle(
-                    //                   fontSize: 18
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       )
-                    //     ],
-                    //   ),
-                    // )
                   ],
                 ),
               ),
@@ -250,110 +204,113 @@ class _ContainerMainState extends State<ContainerMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_title),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                authBloc.logOut(() {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
-                });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(_title),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  authBloc.logOut(() {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                  });
+                }
+            )
+          ],
+        ),
+        body: Center(
+          child: _tabs[_currentIndex],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          fixedColor: Colors.white,
+          selectedFontSize: 15,
+          unselectedFontSize: 12,
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: "Home",
+                backgroundColor: Colors.blue),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: "Meal",
+                backgroundColor: Colors.blue),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: "Profile",
+                backgroundColor: Colors.blue),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.fitness_center),
+                label: "Exercise",
+                backgroundColor: Colors.blue),
+          ],
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+              switch(_currentIndex) {
+                case 0:
+                  _title="Home Page";
+                  break;
+                case 1:
+                  _title="Khẩu phần ăn";
+                  break;
+                case 2:
+                  _title="Profile";
+                  break;
+                case 3:
+                  _title="Exercise";
+                  break;
               }
-          )
-        ],
-      ),
-      body: Center(
-        child: _tabs[_currentIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        fixedColor: Colors.white,
-        selectedFontSize: 15,
-        unselectedFontSize: 12,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "Home",
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: "Meal",
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: "Profile",
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.fitness_center),
-              label: "Exercise",
-              backgroundColor: Colors.blue),
-        ],
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-            switch(_currentIndex) {
-              case 0:
-                _title="Home Page";
-                break;
-              case 1:
-                _title="Khẩu phần ăn";
-                break;
-              case 2:
-                _title="Profile";
-                break;
-              case 3:
-                _title="Exercise";
-                break;
-            }
-          });
-        },
-      ),
-      floatingActionButton: SpeedDial(
-        overlayColor: Colors.black,
-        overlayOpacity: 0.5,
-        backgroundColor: Theme.of(context).primaryColor,
-        buttonSize: 66.0,
-        curve: Curves.bounceInOut,
+            });
+          },
+        ),
+        floatingActionButton: SpeedDial(
+          overlayColor: Colors.black,
+          overlayOpacity: 0.5,
+          backgroundColor: Theme.of(context).primaryColor,
+          buttonSize: 66.0,
+          curve: Curves.bounceInOut,
 
-        icon: Icons.add,
-        foregroundColor: Colors.white,
-        activeIcon: Icons.close,
-        children: [
-          SpeedDialChild(
-              child: Icon(
-                Icons.set_meal,
-                color: Colors.white,
-              ),
-              backgroundColor: Colors.teal,
-              label: "Thêm thực đơn",
-              labelBackgroundColor: Colors.teal,
-              labelStyle: TextStyle(
+          icon: Icons.add,
+          foregroundColor: Colors.white,
+          activeIcon: Icons.close,
+          children: [
+            SpeedDialChild(
+                child: Icon(
+                  Icons.set_meal,
                   color: Colors.white,
-                  fontSize: 18
-              ),
-              onTap: () {
-
-              }
-          ),
-          SpeedDialChild(
-              child: Icon(
-                Icons.calculate,
-                color: Colors.white,
-              ),
-              backgroundColor: Colors.green,
-              label: "Tính BMI",
-              labelBackgroundColor: Colors.green,
-              labelStyle: TextStyle(
+                ),
+                backgroundColor: Colors.teal,
+                label: "Thêm thực đơn",
+                labelBackgroundColor: Colors.teal,
+                labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18
+                ),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ThucDonPage()));
+                }
+            ),
+            SpeedDialChild(
+                child: Icon(
+                  Icons.calculate,
                   color: Colors.white,
-                  fontSize: 18
-              ),
-              onTap: () {
-                createSimpleAlertDialog();
-              }
-          ),
-        ],
+                ),
+                backgroundColor: Colors.green,
+                label: "Tính BMI",
+                labelBackgroundColor: Colors.green,
+                labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18
+                ),
+                onTap: () {
+                  createSimpleAlertDialog();
+                }
+            ),
+          ],
+        ),
       ),
     );
   }

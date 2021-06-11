@@ -114,7 +114,7 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                                   color: Colors.white,
                                   icon: Icon(Icons.close),
                                   onPressed: () {
-
+                                    print(thucAn);
                                     // listBloc.deleteThucAnUser(thucAn, () {
                                     //   Navigator
                                     // });
