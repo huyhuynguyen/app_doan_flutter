@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
+import 'package:flutter_app_doan/src/resources/Main/ThemThucDon.dart';
 import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
@@ -298,7 +299,7 @@ class _ContainerMainState extends State<ContainerMain> {
               case 2:
                 _title="Profile";
                 break;
-              case 2:
+              case 3:
                 _title="Exercise";
                 break;
             }
@@ -328,7 +329,9 @@ class _ContainerMainState extends State<ContainerMain> {
                   color: Colors.white,
                   fontSize: 18
               ),
-              onTap: () {}
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ThucDonPage()));
+              }
           ),
           SpeedDialChild(
               child: Icon(

@@ -176,33 +176,6 @@ class ProfilePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Row(
-                          //     children: <Widget>[
-                          //       Container(
-                          //         child: Text(
-                          //           "Số điện thoại",
-                          //           style: TextStyle(
-                          //               fontSize: 20,
-                          //             fontWeight: FontWeight.w600
-                          //           ),
-                          //         ),
-                          //       ),
-                          //       Expanded(
-                          //           child: Align(
-                          //             alignment: Alignment.centerRight,
-                          //             child: Text(
-                          //               "038383222",
-                          //               style: TextStyle(
-                          //                   fontSize: 20
-                          //               ),
-                          //             ),
-                          //           )
-                          //       )
-                          //     ],
-                          //   ),
-                          // ),
                         ],
                       ),
                     )
