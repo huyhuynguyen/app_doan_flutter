@@ -5,6 +5,7 @@ import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
 import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
+import 'package:flutter_app_doan/src/resources/Welcome/login.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'dinh_duong_page.dart';
@@ -255,7 +256,11 @@ class _ContainerMainState extends State<ContainerMain> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.logout),
-              onPressed: () {}
+              onPressed: () {
+                authBloc.logOut(() {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                });
+              }
           )
         ],
       ),
@@ -298,7 +303,7 @@ class _ContainerMainState extends State<ContainerMain> {
               case 2:
                 _title="Profile";
                 break;
-              case 2:
+              case 3:
                 _title="Exercise";
                 break;
             }
@@ -328,7 +333,9 @@ class _ContainerMainState extends State<ContainerMain> {
                   color: Colors.white,
                   fontSize: 18
               ),
-              onTap: () {}
+              onTap: () {
+
+              }
           ),
           SpeedDialChild(
               child: Icon(

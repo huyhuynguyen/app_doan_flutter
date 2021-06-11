@@ -44,6 +44,10 @@ class AuthBloc {
     _firauth.login(email, onSuccess, onLoginError);
   }
 
+  void logOut(Function onSuccess) {
+    _firauth.logout(onSuccess);
+  }
+
   void updateCurrentUser(int height, int weight, Function onSuccess) {
     _firauth.updateCurrentUser(height, weight, onSuccess);
   }

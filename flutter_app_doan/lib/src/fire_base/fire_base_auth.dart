@@ -47,7 +47,10 @@ class FirAuth {
     }
   }
 
-  User get getCurrentUser => _auth.currentUser;
+  void logout(Function onSuccess) async{
+    await _auth.signOut();
+    onSuccess();
+  }
 
   void updateCurrentUser(int height, int weight, Function onSuccess) async {
     User user = _auth.currentUser;
@@ -100,7 +103,6 @@ class FirAuth {
   Future<void> addListThucAnChosen(Map<String, dynamic> thucAnchosen, Function onSuccess) async{
     User user = _auth.currentUser;
     thucAnchosen["user"]=user.uid;
-    // thucAnchosen["thucanId"]=
     await firestoreInstance.collection("user_ThucAn").add(thucAnchosen)
         .then((value) => onSuccess());
   }
@@ -112,7 +114,8 @@ class FirAuth {
     final List<DocumentSnapshot> documents = snapshot.docs;
     documents.forEach((element) {
       if (user.uid == element["user"]) {
-        Map<String, dynamic> data= {
+        Map<String, dynamic> data = {
+          "id": element["id"],
           "name": element["name"],
           "soluong": element["soluong"],
           "donvitinh": element["donvitinh"],
@@ -129,9 +132,42 @@ class FirAuth {
     return arr;
   }
 
-  Future<void> UpdateThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) async{
+  Future<void> updateThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) async{
     User user = _auth.currentUser;
-    // Query query = await firestoreInstance.collection("user_ThucAn").where("user")
+    QuerySnapshot snapshot = await firestoreInstance
+        .collection("user_ThucAn")
+        .where('user', isEqualTo: thucAnToUpdate["user"])
+        .where('id', isEqualTo: thucAnToUpdate["id"])
+        .get();
+    final List<DocumentSnapshot> documents = snapshot.docs;
+    documents.forEach((element) {
+      firestoreInstance
+          .collection("user_ThucAn")
+          .doc(element.id)
+          .update(thucAnToUpdate)
+            .then((value) => onSuccess())
+            .catchError((err) {}
+      );
+    });
+  }
+
+  Future<void> deleteThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) async {
+    User user = _auth.currentUser;
+    QuerySnapshot snapshot = await firestoreInstance
+        .collection("user_ThucAn")
+        .where('user', isEqualTo: thucAnToUpdate["user"])
+        .where('id', isEqualTo: thucAnToUpdate["id"])
+        .get();
+    final List<DocumentSnapshot> documents = snapshot.docs;
+    documents.forEach((element) {
+      firestoreInstance
+          .collection("user_ThucAn")
+          .doc(element.id)
+          .delete()
+          .then((value) => onSuccess())
+          .catchError((err) {}
+      );
+    });
   }
 
   void _onSignInErr(String code, Function(String) onError) {

@@ -197,10 +197,8 @@ class _secondInforState extends State<secondInfor> {
     LoadingDialog.showLoadingDialog(context, "Welcome...");
     authBloc.logIn(_emailController.text.trim(), () {
       LoadingDialog.hideLoadingDialog(context);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ContainerMain()),
-      );
+      // return ContainerMain();
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContainerMain()));
     }, (msg) {
       LoadingDialog.hideLoadingDialog(context);
       MsgDialog.showMsgDialog(context, "Error", msg);

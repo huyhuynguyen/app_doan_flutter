@@ -11,9 +11,9 @@ class FireStoreList {
     var arr =[];
     QuerySnapshot snapshot = await _fireStoreInstance.collection("ThucAn").get();
     final List<DocumentSnapshot> documents = snapshot.docs;
-
     documents.forEach((element) {
       Map<String, dynamic> dataElement = {
+        "id": element.id,
         "name": element["name"],
         "soluong": element["soluong"],
         "donvitinh": element["donvitinh"],

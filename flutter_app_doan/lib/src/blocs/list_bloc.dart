@@ -49,8 +49,12 @@ class ListBloc {
     return listThucAnForUser;
   }
 
-  Future<void> UpdateThucAnUser() async{
+  void updateThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) {
+    _firAuth.updateThucAnUser(thucAnToUpdate, onSuccess);
+  }
 
+  void deleteThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) {
+    _firAuth.deleteThucAnUser(thucAnToUpdate, onSuccess);
   }
 
 }

@@ -329,10 +329,12 @@ class _HomePageState extends State<HomePage> {
                         ),
                         SizedBox(height: 15),
                         Container(
+                          padding: EdgeInsets.only(bottom: 10),
                           child: Text(
                               "Nhật ký trong ngày",
                             style: TextStyle(
-                              fontSize: 20
+                              fontSize: 20,
+                              color: Color(0xFFA5A5A5)
                             ),
                           ),
                         ),

@@ -325,11 +325,12 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
   }
 
   void _onUpdateToDiary() {
-    print(maps.toString());
-
-    // Navigator.of(context).push(
-    //     MaterialPageRoute(builder: (context) => ContainerMain())
-    // );
+    // print(maps.toString());
+    listBloc.updateThucAnUser(maps, () {
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => ContainerMain())
+      );
+    });
   }
 
 }
