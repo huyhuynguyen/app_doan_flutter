@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_doan/src/blocs/add_thucAn_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
-import 'package:fluttericon/fontelico_icons.dart';
-
-import '../../../models/user.dart';
 
 class ThucDonPage extends StatefulWidget {
   @override
@@ -11,8 +9,22 @@ class ThucDonPage extends StatefulWidget {
 }
 
 class _ThucDonPageState extends State<ThucDonPage> {
-  var _searchController=TextEditingController();
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _numberController = new TextEditingController();
+  TextEditingController _dvtController = TextEditingController(text: "gam");
+  TextEditingController _proteinController = new TextEditingController();
+  TextEditingController _beoController = new TextEditingController();
+  TextEditingController _carbsController = new TextEditingController();
+  TextEditingController _caloController = new TextEditingController();
 
+  AddThucAnBloc addThucAnBloc = new AddThucAnBloc();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    addThucAnBloc.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +33,6 @@ class _ThucDonPageState extends State<ThucDonPage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-
           children: <Widget>[
             SizedBox(height: 30,),
             Container(
@@ -77,10 +88,17 @@ class _ThucDonPageState extends State<ThucDonPage> {
                           padding: EdgeInsets.fromLTRB( 50, 0, 0, 0),
                           child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(width: 200),
-                              child: TextField(
-                                textAlign: TextAlign.right,
-                                decoration: InputDecoration(
-                                ),
+                              child: StreamBuilder(
+                                stream: addThucAnBloc.nameStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    controller: _nameController,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                      errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
                               )
                           ),
                         )
@@ -93,7 +111,7 @@ class _ThucDonPageState extends State<ThucDonPage> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            "chất béo",
+                            "Số lượng",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600
@@ -104,64 +122,20 @@ class _ThucDonPageState extends State<ThucDonPage> {
                           padding: EdgeInsets.fromLTRB( 50, 0, 0, 0),
                           child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(width: 200),
-                              child: TextField(
-                                textAlign: TextAlign.right,
-                                decoration: InputDecoration(
-                                ),
-                              )
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            "calo",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB( 90, 0, 0, 0),
-                          child: ConstrainedBox(
-                              constraints: BoxConstraints.tightFor(width: 200),
-                              child: TextField(
-                                textAlign: TextAlign.right,
-                                decoration: InputDecoration(
-                                ),
-                              )
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(3.0),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            "carbs",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB( 80, 0, 0, 0),
-                          child: ConstrainedBox(
-                              constraints: BoxConstraints.tightFor(width: 200),
-                              child: TextField(
-                                textAlign: TextAlign.right,
-                                decoration: InputDecoration(
-                                ),
+                              child: StreamBuilder(
+                                stream: addThucAnBloc.numberStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    onChanged: _onNumberChange,
+                                    keyboardType: TextInputType.number,
+                                    controller: _numberController,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                      hintText: 100.toString(),
+                                      errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
                               )
                           ),
                         )
@@ -186,6 +160,8 @@ class _ThucDonPageState extends State<ThucDonPage> {
                           child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(width: 200),
                               child: TextField(
+                                readOnly: true,
+                                controller: _dvtController,
                                 textAlign: TextAlign.right,
                                 decoration: InputDecoration(
                                 ),
@@ -212,10 +188,19 @@ class _ThucDonPageState extends State<ThucDonPage> {
                           padding: EdgeInsets.fromLTRB( 65, 0, 0, 0),
                           child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(width: 200),
-                              child: TextField(
-                                textAlign: TextAlign.right,
-                                decoration: InputDecoration(
-                                ),
+                              child: StreamBuilder(
+                                stream: addThucAnBloc.proteinStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    onChanged: _onProteinChange,
+                                    keyboardType: TextInputType.number,
+                                    controller: _proteinController,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                        errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
                               )
                           ),
                         )
@@ -228,7 +213,7 @@ class _ThucDonPageState extends State<ThucDonPage> {
                       children: <Widget>[
                         Container(
                           child: Text(
-                            "Số lượng",
+                            "Chất béo",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600
@@ -239,9 +224,85 @@ class _ThucDonPageState extends State<ThucDonPage> {
                           padding: EdgeInsets.fromLTRB( 50, 0, 0, 0),
                           child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(width: 200),
+                              child: StreamBuilder(
+                                stream: addThucAnBloc.beoStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    onChanged: _onBeoChange,
+                                    keyboardType: TextInputType.number,
+                                    controller: _beoController,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                        errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
+                              )
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            "Carbs",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB( 80, 0, 0, 0),
+                          child: ConstrainedBox(
+                              constraints: BoxConstraints.tightFor(width: 200),
+                              child: StreamBuilder(
+                                stream: addThucAnBloc.carbsStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    onChanged: _onCarbsChange,
+                                    keyboardType: TextInputType.number,
+                                    controller: _carbsController,
+                                    textAlign: TextAlign.right,
+                                    decoration: InputDecoration(
+                                        errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
+                              )
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          child: Text(
+                            "Calo",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB( 90, 0, 0, 0),
+                          child: ConstrainedBox(
+                              constraints: BoxConstraints.tightFor(width: 200),
                               child: TextField(
+                                readOnly: true,
+                                // keyboardType: TextInputType.number,
+                                controller: _caloController,
                                 textAlign: TextAlign.right,
                                 decoration: InputDecoration(
+                                  hintText: 0.0.toString()
                                 ),
                               )
                           ),
@@ -261,13 +322,75 @@ class _ThucDonPageState extends State<ThucDonPage> {
                 color: Colors.blueAccent,
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-
-                onPressed: () {},
+                onPressed: _onAddToThucAn,
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _onAddToThucAn() {
+    Map<String, dynamic> thucAnToAdd = {
+      "name": _nameController.text.trim(),
+      "soluong": _numberController.text.trim(),
+      "donvitinh": _dvtController.text.trim(),
+      "protein": _proteinController.text.trim(),
+      "beo": _beoController.text.trim(),
+      "carbs": _carbsController.text.trim(),
+      "calo": _caloController.text.trim()
+    };
+
+    if (addThucAnBloc.isValidThucAn(thucAnToAdd)) {
+      addThucAnBloc.addNewThucAnForUser(thucAnToAdd, () {
+        Navigator.pop(context);
+      });
+    }
+
+  }
+
+  void _onProteinChange(String value) {
+    double protein, beo, carbs;
+    beo = double.tryParse(_beoController.text.trim()) ?? 0.0;
+    carbs = double.tryParse(_carbsController.text.trim()) ?? 0.0;
+    protein= double.tryParse(value.trim()) ?? 0.0;
+    if (_numberController.text.trim()=="")
+      _numberController.text = 100.toString();
+
+    _caloController.text=( (protein*4+carbs*4+beo*9) * (double.tryParse(_numberController.text.trim()) ?? 0.0)/100 ).toString();
+  }
+
+  void _onBeoChange(String value) {
+    double protein, beo, carbs;
+    protein = double.tryParse(_proteinController.text.trim()) ?? 0.0;
+    carbs = double.tryParse(_carbsController.text.trim()) ?? 0.0;
+    beo= double.tryParse(value.trim()) ?? 0.0;
+    if (_numberController.text.trim()=="")
+      _numberController.text = 100.toString();
+
+    _caloController.text=( (protein*4+carbs*4+beo*9) * (double.tryParse(_numberController.text.trim()) ?? 0.0)/100 ).toString();
+  }
+
+  void _onCarbsChange(String value) {
+    double protein, beo, carbs;
+    protein = double.tryParse(_proteinController.text.trim()) ?? 0.0;
+    beo = double.tryParse(_beoController.text.trim()) ?? 0.0;
+    carbs= double.tryParse(value.trim()) ?? 0.0;
+    if (_numberController.text.trim()=="")
+      _numberController.text = 100.toString();
+
+    _caloController.text=( (protein*4+carbs*4+beo*9) * (double.tryParse(_numberController.text.trim()) ?? 0.0)/100 ).toString();
+  }
+
+  void _onNumberChange(String value) {
+    if (!(_proteinController.text.trim()==""
+        && _beoController.text.trim()==""
+        && _carbsController.text.trim()=="")) {
+      var protein = double.tryParse(_proteinController.text.trim()) ?? 0.0;
+      var beo = double.tryParse(_beoController.text.trim()) ?? 0.0;
+      var carbs= double.tryParse(_carbsController.text.trim()) ?? 0.0;
+      _caloController.text=((protein*4+carbs*4+beo*9)*(double.tryParse(value) ?? 0.0)/100).toString();
+    }
   }
 }

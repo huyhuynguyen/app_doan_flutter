@@ -23,6 +23,10 @@ class CalcBloc {
     _caloController.sink.add(((caloIni*soluong)/soluongIni).toStringAsFixed(0));
   }
 
+  // void calcCaloFromTapLuyen(int timeIni, int time, double caloIni) {
+  //   _caloController.sink.add(((caloIni*time)/timeIni).toStringAsFixed(0));
+  // }
+
 
   AuthBloc authBloc = new AuthBloc();
 
@@ -41,6 +45,8 @@ class CalcBloc {
   double TDEECalc(int weight, int height) {
 
   }
+
+
 
   void dispose() {
     _proteinIniController.close();

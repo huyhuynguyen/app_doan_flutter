@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
+import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
 import 'package:flutter_app_doan/src/resources/Main/detail_dinh_duong_page.dart';
+import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
 
 class ListThucAnUser extends StatefulWidget {
   @override
@@ -97,7 +99,6 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                           ),
                         ),
                         Positioned(
-                            top: 0,
                             right: 12,
                             child: Container(
                                 height: 35,
@@ -114,10 +115,14 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                                   color: Colors.white,
                                   icon: Icon(Icons.close),
                                   onPressed: () {
-                                    print(thucAn);
-                                    // listBloc.deleteThucAnUser(thucAn, () {
-                                    //   Navigator
-                                    // });
+                                    // print(thucAn);
+                                    LoadingDialog.showLoadingDialog(context, "Loading...");
+                                    listBloc.deleteThucAnUser(thucAn["docID"], () {
+                                      LoadingDialog.hideLoadingDialog(context);
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) => ContainerMain())
+                                      );
+                                    });
                                   },
                                 )
                             )

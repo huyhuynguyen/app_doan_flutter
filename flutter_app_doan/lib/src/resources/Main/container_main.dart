@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
-import 'package:flutter_app_doan/src/resources/Main/ThemThucDon.dart';
+import 'package:flutter_app_doan/src/resources/Main/them_thuc_don.dart';
 import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
@@ -223,49 +223,6 @@ class _ContainerMainState extends State<ContainerMain> {
         body: Center(
           child: _tabs[_currentIndex],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          fixedColor: Colors.white,
-          selectedFontSize: 15,
-          unselectedFontSize: 12,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: "Home",
-                backgroundColor: Colors.blue),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: "Meal",
-                backgroundColor: Colors.blue),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Profile",
-                backgroundColor: Colors.blue),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.fitness_center),
-                label: "Exercise",
-                backgroundColor: Colors.blue),
-          ],
-          currentIndex: _currentIndex,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-              switch(_currentIndex) {
-                case 0:
-                  _title="Home Page";
-                  break;
-                case 1:
-                  _title="Khẩu phần ăn";
-                  break;
-                case 2:
-                  _title="Profile";
-                  break;
-                case 3:
-                  _title="Exercise";
-                  break;
-              }
-            });
-          },
-        ),
         floatingActionButton: SpeedDial(
           overlayColor: Colors.black,
           overlayOpacity: 0.5,
@@ -310,6 +267,49 @@ class _ContainerMainState extends State<ContainerMain> {
                 }
             ),
           ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          fixedColor: Colors.white,
+          selectedFontSize: 15,
+          unselectedFontSize: 12,
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: "Home",
+                backgroundColor: Colors.blue),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: "Meal",
+                backgroundColor: Colors.blue),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: "Profile",
+                backgroundColor: Colors.blue),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.fitness_center),
+                label: "Exercise",
+                backgroundColor: Colors.blue),
+          ],
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+              switch(_currentIndex) {
+                case 0:
+                  _title="Home Page";
+                  break;
+                case 1:
+                  _title="Khẩu phần ăn";
+                  break;
+                case 2:
+                  _title="Profile";
+                  break;
+                case 3:
+                  _title="Exercise";
+                  break;
+              }
+            });
+          },
         ),
       ),
     );

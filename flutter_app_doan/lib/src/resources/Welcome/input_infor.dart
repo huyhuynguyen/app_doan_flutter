@@ -213,7 +213,7 @@ class _secondInforState extends State<secondInfor> {
     int weight=int.parse(_weightController.text);
 
     authBloc.updateCurrentUser(height, weight, () {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ContainerMain()),
       );

@@ -100,14 +100,15 @@ class FirAuth {
     // }
   }
 
-
-  Future<void> addListThucAnChosen(Map<String, dynamic> thucAnchosen, Function onSuccess) async{
+  // thêm vào thuc an user chọn
+  Future<void> addThucAnChosen(Map<String, dynamic> thucAnchosen, Function onSuccess) async{
     User user = _auth.currentUser;
     thucAnchosen["user"]=user.uid;
     await firestoreInstance.collection("user_ThucAn").add(thucAnchosen)
         .then((value) => onSuccess());
   }
 
+  // listThucAn mà user đã chọn và hiển thị bên trang homePage
   Future<dynamic> getListThucAnForUser() async {
     User user = _auth.currentUser;
     var arr =[];
@@ -115,18 +116,8 @@ class FirAuth {
     final List<DocumentSnapshot> documents = snapshot.docs;
     documents.forEach((element) {
       if (user.uid == element["user"]) {
-        Map<String, dynamic> data = {
-          "id": element["id"],
-          "name": element["name"],
-          "soluong": element["soluong"],
-          "donvitinh": element["donvitinh"],
-          "protein": element["protein"],
-          "beo": element["beo"],
-          "carbs": element["carbs"],
-          "calo": element["calo"],
-          "user": element["user"]
-        };
-
+        Map<String, dynamic> data = element.data();
+        data["docID"] = element.id;
         arr.add(data);
       }
     });
@@ -134,41 +125,63 @@ class FirAuth {
   }
 
   Future<void> updateThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) async{
-    User user = _auth.currentUser;
-    QuerySnapshot snapshot = await firestoreInstance
+    await firestoreInstance
         .collection("user_ThucAn")
-        .where('user', isEqualTo: thucAnToUpdate["user"])
-        .where('id', isEqualTo: thucAnToUpdate["id"])
-        .get();
-    final List<DocumentSnapshot> documents = snapshot.docs;
-    documents.forEach((element) {
-      firestoreInstance
-          .collection("user_ThucAn")
-          .doc(element.id)
-          .update(thucAnToUpdate)
-            .then((value) => onSuccess())
-            .catchError((err) {}
-      );
-    });
+        .doc(thucAnToUpdate["docID"])
+        .update(thucAnToUpdate).then((value) => onSuccess());
   }
 
-  Future<void> deleteThucAnUser(Map<String, dynamic> thucAnToUpdate, Function onSuccess) async {
-    User user = _auth.currentUser;
-    QuerySnapshot snapshot = await firestoreInstance
+  Future<void> deleteThucAnUser(String thucAnUserDocId, Function onSuccess) async {
+    await firestoreInstance
         .collection("user_ThucAn")
-        .where('user', isEqualTo: thucAnToUpdate["user"])
-        .where('id', isEqualTo: thucAnToUpdate["id"])
-        .get();
+        .doc(thucAnUserDocId)
+        .delete().then((value) => onSuccess());
+  }
+
+  // thêm thực đơn
+  Future<void> addNewThucAnForUser(Map<String, dynamic> thucAnToAdd, Function onSuccess) async {
+    User user = _auth.currentUser;
+    thucAnToAdd["user"]=user.uid;
+    await firestoreInstance.collection("ThucAn").add(thucAnToAdd)
+        .then((value) => onSuccess());
+  }
+
+  // thêm vào khi tick tap luyen
+  Future<void> addTapLuyenChosen(Map<String, dynamic> tapluyenchosen, Function onSuccess) async{
+    User user = _auth.currentUser;
+    tapluyenchosen["user"]=user.uid;
+    await firestoreInstance.collection("user_tapluyen").add(tapluyenchosen)
+        .then((value) => onSuccess());
+  }
+
+  // listTapLuyen mà user đã chọn và hiển thị bên trang homePage
+  Future<dynamic> getListTapLuyenForUser() async {
+    User user = _auth.currentUser;
+    var arr =[];
+    QuerySnapshot snapshot = await firestoreInstance.collection("user_tapluyen").get();
     final List<DocumentSnapshot> documents = snapshot.docs;
     documents.forEach((element) {
-      firestoreInstance
-          .collection("user_ThucAn")
-          .doc(element.id)
-          .delete()
-          .then((value) => onSuccess())
-          .catchError((err) {}
-      );
+      if (user.uid == element["user"]) {
+        Map<String, dynamic> data = element.data();
+        data["docID"]=element.id;
+        arr.add(data);
+      }
     });
+    return arr;
+  }
+
+  Future<void> updateTapLuyenUser(Map<String, dynamic> tapluyenToUpdate, Function onSuccess) async{
+    await firestoreInstance
+        .collection("user_tapluyen")
+        .doc(tapluyenToUpdate["docID"])
+        .update(tapluyenToUpdate).then((value) => onSuccess());
+  }
+
+  Future<void> deleteTapLuyenUser(String tapluyenUserDocId, Function onSuccess) async {
+    await firestoreInstance
+        .collection("user_tapluyen")
+        .doc(tapluyenUserDocId)
+        .delete().then((value) => onSuccess());
   }
 
   void _onSignInErr(String code, Function(String) onError) {

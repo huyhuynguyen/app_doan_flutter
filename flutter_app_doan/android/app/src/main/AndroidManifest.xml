@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_app_doan">
    <application
-        android:label="flutter_app_doan"
-        android:icon="@mipmap/ic_launcher">
+        android:label="flutter_doan"
+        android:icon="@mipmap/lauch_screen">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

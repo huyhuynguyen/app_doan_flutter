@@ -319,7 +319,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
 
   void _onAddToDiary() {
     // print(maps.toString());
-    listBloc.addListThucAnChosen(maps, () {
+    listBloc.addThucAnChosen(maps, () {
       Navigator.pop(context);
     });
   }

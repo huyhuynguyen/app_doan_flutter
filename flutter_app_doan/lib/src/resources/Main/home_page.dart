@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/constants.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
+import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
+import 'package:flutter_app_doan/src/resources/Main/list_exercise_user.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   AuthBloc authBloc = new AuthBloc();
-
+  ListBloc _listBloc = new ListBloc();
   CalcBloc calcBloc = new CalcBloc();
 
   @override
@@ -149,11 +151,12 @@ class _HomePageState extends State<HomePage> {
                                           // SizedBox(height: 10),
                                            Container(
                                             child: FutureBuilder(
-                                                future: authBloc.getValueUser('weight'),
+                                                future: _listBloc.caloDay(),
                                                 builder: (context, snapshot) {
                                                   if (snapshot.connectionState == ConnectionState.done) {
+                                                    String caloDay = snapshot.data.toStringAsFixed(0);
                                                     return Text(
-                                                      '${snapshot.data}',
+                                                      caloDay,
                                                       style: TextStyle(
                                                         color: Colors.deepOrangeAccent,
                                                         fontSize: 35,
@@ -165,25 +168,17 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ),
                                           Container(
-                                              child: FutureBuilder(
-                                                future: authBloc.getValueUser('height'),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.connectionState == ConnectionState.done) {
-                                                    return Padding(
-                                                      padding: const EdgeInsets.only(left: 5.0),
-                                                      child: Text(
-                                                        'calo day',
-                                                        style: TextStyle(
-                                                          color: Colors.red,
-                                                          fontSize: 15,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                  return CircularProgressIndicator();
-                                                },
-                                              ),
-                                            )
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 5.0),
+                                                child: Text(
+                                                  'calo day',
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              )
+                                          )
                                     ],
                                   ),
                                   ]
@@ -330,15 +325,69 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(height: 15),
                         Container(
                           padding: EdgeInsets.only(bottom: 10),
-                          child: Text(
-                              "Nhật ký trong ngày",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Color(0xFFA5A5A5)
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                  "Nhật ký trong ngày",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color(0xFFA5A5A5)
+                                ),
+                              ),
+                              FutureBuilder(
+                                future: _listBloc.sumOfCaloThucAnUser(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.done) {
+                                    String caloText=snapshot.data.toStringAsFixed(0);
+                                    return Text(
+                                      '$caloText calo',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFFA5A5A5)
+                                      ),
+                                    );
+                                  }
+                                  return CircularProgressIndicator();
+                                }
+                              )
+                            ],
                           ),
                         ),
                         ListThucAnUser(),
+                        SizedBox(height: 15),
+                        Container(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                "Tập luyện trong ngày",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color(0xFFA5A5A5)
+                                ),
+                              ),
+                              FutureBuilder(
+                                  future: _listBloc.sumOfCaloTapluyenUser(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      String caloText=snapshot.data.toStringAsFixed(0);
+                                      return Text(
+                                        '$caloText calo',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xFFA5A5A5)
+                                        ),
+                                      );
+                                    }
+                                    return CircularProgressIndicator();
+                                  }
+                              )
+                            ],
+                          ),
+                        ),
+                        ListExerciseUser(),
                         Container(
                           margin: EdgeInsets.only(top: 20),
                           padding: EdgeInsets.all(20),

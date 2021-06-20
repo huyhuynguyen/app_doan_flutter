@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_calo_time_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
-import 'package:flutter_app_doan/src/resources/selectedTick/selected_tick.dart';
+import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
 
-class ListExercise extends StatefulWidget {
-  String searchText;
-  ListExercise({this.searchText});
 
+class ListExerciseUser extends StatefulWidget {
   @override
-  _ListExerciseState createState() => _ListExerciseState();
+  _ListExerciseUserState createState() => _ListExerciseUserState();
 }
 
-class _ListExerciseState extends State<ListExercise> {
-  ListBloc listBloc = new ListBloc();
+class _ListExerciseUserState extends State<ListExerciseUser> {
+  final ListBloc listBloc = new ListBloc();
   CalcCaloTimeBloc calcCaloTimeBloc;
   int timeIni;
   double caloIni;
 
-  createDialogToAdd(Map<String, dynamic> exercise) {
+  createDialogToUpdate(Map<String, dynamic> exercise) {
     calcCaloTimeBloc = new CalcCaloTimeBloc();
     TextEditingController _timeController = new TextEditingController();
     timeIni=exercise["time"];
+    // print(exercise["calo"].runtimeType);
     caloIni=exercise["calo"]+.0;
     showDialog(context: context,
         builder: (context) => Dialog(
@@ -34,11 +32,11 @@ class _ListExerciseState extends State<ListExercise> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: Text(
-                      '${exercise["name"]}',
-                      style: TextStyle(
+                    '${exercise["name"]}',
+                    style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700
-                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -51,46 +49,46 @@ class _ListExerciseState extends State<ListExercise> {
                           Container(
                             width: 42,
                             child: StreamBuilder(
-                              stream: calcCaloTimeBloc.timeStream,
-                              builder: (context, snapshot) {
-                                return TextField(
-                                  controller: _timeController,
-                                  keyboardType: TextInputType.number,
-                                  onChanged: _onTimeChange,
-                                  style: TextStyle(
-                                      fontSize: 18
-                                  ),
-                                  decoration: InputDecoration(
-                                    errorText: snapshot.hasError ? snapshot.error : null,
-                                    hintText: '${exercise["time"]}'
-                                  ),
-                                );
-                              }
+                                stream: calcCaloTimeBloc.timeStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    controller: _timeController,
+                                    keyboardType: TextInputType.number,
+                                    onChanged: _onTimeChange,
+                                    style: TextStyle(
+                                        fontSize: 18
+                                    ),
+                                    decoration: InputDecoration(
+                                        errorText: snapshot.hasError ? snapshot.error : null,
+                                        hintText: '${exercise["time"]}'
+                                    ),
+                                  );
+                                }
                             ),
                           ),
                           Text(
-                              " phút",
-                              style: TextStyle(
+                            " phút",
+                            style: TextStyle(
                                 fontSize: 18
-                              ),
+                            ),
                           )
                         ],
                       ),
                       Row(
                         children: [
                           StreamBuilder(
-                            stream: calcCaloTimeBloc.caloTimeStream,
-                            builder: (context, snapshot) {
-                              return Text(
+                              stream: calcCaloTimeBloc.caloTimeStream,
+                              builder: (context, snapshot) {
+                                return Text(
                                   '${_onChangeCaloOrNot(snapshot, exercise)} ',
-                                style: TextStyle(
-                                    fontSize: 18
-                                ),
-                              );
-                            }
+                                  style: TextStyle(
+                                      fontSize: 18
+                                  ),
+                                );
+                              }
                           ),
                           Text(
-                              "calo",
+                            "calo",
                             style: TextStyle(
                                 fontSize: 18
                             ),
@@ -114,14 +112,14 @@ class _ListExerciseState extends State<ListExercise> {
                         if (calcCaloTimeBloc.checkTimeChange(int.tryParse(_timeController.text) ?? 0)) {
                           exercise["time"]=int.parse(_timeController.text.trim());
                           exercise["calo"]=double.parse(double.parse(exercise["calo"]).toStringAsFixed(0));
-                          listBloc.addTapluyenChosen(exercise, (){
+                          listBloc.updateTapLuyenUser(exercise, (){
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => ContainerMain())
                             );
                           });
                         }
                       },
-                      child: Text("Add"),
+                      child: Text("Update"),
                     ),
                   ],
                 )
@@ -139,23 +137,23 @@ class _ListExerciseState extends State<ListExercise> {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
-      future: listBloc.getListExercise(this.widget.searchText),
+      future: listBloc.getListTapLuyenForUser(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Container(
-            // nếu nhập có dữ liệu hoặc chưa nhập gì
-              child: (snapshot.data.length>0 || this.widget.searchText.trim()=="") ? ListView.builder(
-                // nếu chưa nhập sẽ hiển thị full tapluyen
+              child: (snapshot.data.length>0) ? ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, item) {
-                    Map<String, dynamic> exercise = snapshot.data[item];
+                    Map<String, dynamic> exercise=snapshot.data[item];
                     return Stack(
                       children: [
                         InkWell(
                           onTap: () {
-                            createDialogToAdd(exercise);
+                            createDialogToUpdate(exercise);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -217,7 +215,34 @@ class _ListExerciseState extends State<ListExercise> {
                             ),
                           ),
                         ),
-                        SelectedTick(item: exercise, keyWord: "TapLuyen",),
+                        Positioned(
+                            right: 12,
+                            child: Container(
+                                height: 35,
+                                width: 35,
+                                decoration: BoxDecoration(
+                                    color: Colors.blue[400],
+                                    border: Border.all(
+                                        color: Color(0xFF959595)
+                                    ),
+                                    borderRadius: BorderRadius.all(Radius.circular(30))
+                                ),
+                                child: IconButton(
+                                  iconSize: 18,
+                                  color: Colors.white,
+                                  icon: Icon(Icons.close),
+                                  onPressed: () {
+                                    LoadingDialog.showLoadingDialog(context, "Loading...");
+                                    listBloc.deleteTapluyenUser(exercise["docID"], () {
+                                      LoadingDialog.hideLoadingDialog(context);
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) => ContainerMain())
+                                      );
+                                    });
+                                  },
+                                )
+                            )
+                        )
                       ],
                     );
                   }
@@ -236,7 +261,6 @@ class _ListExerciseState extends State<ListExercise> {
     calcCaloTimeBloc.calcCaloFromTapLuyen(timeIni, int.tryParse(value) ?? 0, caloIni);
   }
 
-  // method riêng để get dữ liệu snapshot khi change calo
   String _onChangeCaloOrNot(AsyncSnapshot<dynamic> snapshot, Map<String, dynamic> exercise) {
     if (snapshot.hasData)
       exercise["calo"]=snapshot.data;
