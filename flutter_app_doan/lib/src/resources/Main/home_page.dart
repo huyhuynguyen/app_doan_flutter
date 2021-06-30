@@ -148,8 +148,8 @@ class _HomePageState extends State<HomePage> {
                                     children: <Widget>[
                                       Column(
                                         children: <Widget>[
-                                          // SizedBox(height: 10),
-                                           Container(
+                                          SizedBox(height: 10),
+                                          Container(
                                             child: FutureBuilder(
                                                 future: _listBloc.caloDay(),
                                                 builder: (context, snapshot) {

@@ -195,12 +195,40 @@ class _ContainerMainState extends State<ContainerMain> {
     });
   }
 
-  final List<Widget> _tabs=[
-    HomePage(),
-    DinhDuongPage(),
-    ProfilePage(),
-    ExercisePage()
-  ];
+  // final List<Widget> _tabs=[
+  //   HomePage(),
+  //   DinhDuongPage(),
+  //   ProfilePage(),
+  //   ExercisePage()
+  // ];
+
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
+
+  void pageChanged(int index) {
+    setState(() {
+      _currentIndex=index;
+      switch(_currentIndex) {
+        case 0:
+          _title="Home Page";
+          break;
+        case 1:
+          _title="Khẩu phần ăn";
+          break;
+        case 2:
+          _title="Profile";
+          break;
+        case 3:
+          _title="Exercise";
+          break;
+      }
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -220,8 +248,21 @@ class _ContainerMainState extends State<ContainerMain> {
             )
           ],
         ),
-        body: Center(
-          child: _tabs[_currentIndex],
+        body:
+        // Container(
+        //   child: _tabs[_currentIndex],
+        // ),
+        PageView(
+          controller: pageController,
+          onPageChanged: (index) {
+            pageChanged(index);
+          },
+          children: [
+            HomePage(),
+            DinhDuongPage(),
+            ProfilePage(),
+            ExercisePage()
+          ],
         ),
         floatingActionButton: SpeedDial(
           overlayColor: Colors.black,
@@ -294,6 +335,11 @@ class _ContainerMainState extends State<ContainerMain> {
           onTap: (index) {
             setState(() {
               _currentIndex = index;
+              pageController.animateToPage(
+                  index,
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.ease
+              );
               switch(_currentIndex) {
                 case 0:
                   _title="Home Page";
@@ -322,4 +368,6 @@ class _ContainerMainState extends State<ContainerMain> {
       );
     });
   }
+
+
 }

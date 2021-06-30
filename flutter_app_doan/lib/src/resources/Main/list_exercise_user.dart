@@ -201,7 +201,7 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
                                           Text(
-                                            '${exercise["calo"]} calo',
+                                            '${exercise["calo"].toStringAsFixed(0)} calo',
                                             style: TextStyle(
                                                 fontSize: 18
                                             ),
