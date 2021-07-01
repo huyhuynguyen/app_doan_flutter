@@ -26,25 +26,25 @@ class AddThucAnBloc {
     }
     _nameController.sink.add("");
 
-    if (thucAnToAdd["soluong"]=="" || double.parse(thucAnToAdd["soluong"]).runtimeType!=double || double.parse(thucAnToAdd["soluong"])<=0.0) {
+    if (thucAnToAdd["soluong"]<=0.0) {
       _numberController.sink.addError("Please enter the correct number format of food");
       return false;
     }
     _numberController.sink.add("");
 
-    if (thucAnToAdd["protein"]=="" || double.parse(thucAnToAdd["protein"]).runtimeType!=double || double.parse(thucAnToAdd["protein"])<0.0) {
+    if (thucAnToAdd["protein"]<0.0) {
       _proteinController.sink.addError("Please enter the correct number format of protein");
       return false;
     }
     _proteinController.sink.add("");
 
-    if (thucAnToAdd["beo"]=="" || double.parse(thucAnToAdd["beo"]).runtimeType!=double || double.parse(thucAnToAdd["beo"])<0.0) {
+    if (thucAnToAdd["beo"]<0.0) {
       _beoController.sink.addError("Please enter the correct number format of protein");
       return false;
     }
     _beoController.sink.add("");
 
-    if (thucAnToAdd["carbs"]=="" || double.parse(thucAnToAdd["carbs"]).runtimeType!=double || double.parse(thucAnToAdd["carbs"])<0.0) {
+    if (thucAnToAdd["carbs"]<0.0) {
       _carbsController.sink.addError("Please enter the correct number format of protein");
       return false;
     }

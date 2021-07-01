@@ -156,7 +156,7 @@ class _ExercisePageState extends State<ExercisePage> {
     if (GlobalList.tapLuyenDaChon.length>0) {
       itemCheckedBloc.addlistTapLuyenDaChon((){
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ContainerMain())
+            MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
         );
       });
     }

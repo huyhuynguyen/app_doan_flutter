@@ -116,7 +116,7 @@ class _ListExerciseState extends State<ListExercise> {
                           exercise["calo"]=double.parse(double.parse(exercise["calo"]).toStringAsFixed(0));
                           listBloc.addTapluyenChosen(exercise, (){
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ContainerMain())
+                                MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
                             );
                           });
                         }

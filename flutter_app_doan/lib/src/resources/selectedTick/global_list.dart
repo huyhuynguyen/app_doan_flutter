@@ -13,10 +13,10 @@ class GlobalList {
   }
 
   static Future<String> getUpdateTime() async {
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-    String timeFormat=dateFormat.format(DateTime.now());
+    // DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    // String timeFormat=dateFormat.format(DateTime.now());
     SharedPreferences prefs= await SharedPreferences.getInstance();
-    String time = prefs.getString('updateTime') ?? timeFormat;
+    String time = prefs.getString('updateTime');
     return time;
   }
 }

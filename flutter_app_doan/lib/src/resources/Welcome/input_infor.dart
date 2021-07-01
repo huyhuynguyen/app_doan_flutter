@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 
 import 'welcome_screen.dart';
 
@@ -213,9 +214,9 @@ class _secondInforState extends State<secondInfor> {
     int weight=int.parse(_weightController.text);
 
     authBloc.updateCurrentUser(height, weight, () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ContainerMain()),
+      GlobalList.setUpdateTime();
+      Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,)),
       );
     });
 

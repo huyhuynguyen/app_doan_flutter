@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/src/blocs/add_thucAn_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
+import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
 
 class ThucDonPage extends StatefulWidget {
   @override
@@ -334,17 +335,19 @@ class _ThucDonPageState extends State<ThucDonPage> {
   void _onAddToThucAn() {
     Map<String, dynamic> thucAnToAdd = {
       "name": _nameController.text.trim(),
-      "soluong": _numberController.text.trim(),
+      "soluong": double.tryParse(_numberController.text.trim()) ?? 0.0,
       "donvitinh": _dvtController.text.trim(),
-      "protein": _proteinController.text.trim(),
-      "beo": _beoController.text.trim(),
-      "carbs": _carbsController.text.trim(),
-      "calo": _caloController.text.trim()
+      "protein": double.tryParse(_proteinController.text.trim()) ?? -1.0,
+      "beo": double.tryParse(_beoController.text.trim()) ?? -1.0,
+      "carbs": double.tryParse(_carbsController.text.trim()) ?? -1.0,
+      "calo": double.tryParse(_caloController.text.trim()) ?? -1.0
     };
 
     if (addThucAnBloc.isValidThucAn(thucAnToAdd)) {
       addThucAnBloc.addNewThucAnForUser(thucAnToAdd, () {
-        Navigator.pop(context);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 1,))
+        );
       });
     }
 

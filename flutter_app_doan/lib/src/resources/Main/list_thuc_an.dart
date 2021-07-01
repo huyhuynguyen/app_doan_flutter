@@ -75,7 +75,7 @@ class _ListThucAnState extends State<ListThucAn> {
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      '${thucAn["soluong"]} ${thucAn["donvitinh"]}',
+                                      '${thucAn["soluong"].toStringAsFixed(0)} ${thucAn["donvitinh"]}',
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -85,7 +85,7 @@ class _ListThucAnState extends State<ListThucAn> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
                                           Text(
-                                            '${thucAn["calo"]} calo',
+                                            '${thucAn["calo"].toStringAsFixed(0)} calo',
                                             style: TextStyle(
                                                 fontSize: 18
                                             ),

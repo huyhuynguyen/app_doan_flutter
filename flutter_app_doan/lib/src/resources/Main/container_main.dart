@@ -16,15 +16,29 @@ import 'dinh_duong_page.dart';
 import 'profile_page.dart';
 
 class ContainerMain extends StatefulWidget {
-  // int indexTab;
-  // ContainerMain({this.indexTab});
+  final int indexTab;
+  ContainerMain({this.indexTab});
 
   @override
   _ContainerMainState createState() => _ContainerMainState();
 }
 
 class _ContainerMainState extends State<ContainerMain> {
-  int _currentIndex = 0;
+  int _currentIndex;
+  PageController pageController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentIndex=widget.indexTab;
+    pageChanged(_currentIndex);
+    pageController = PageController(
+        initialPage: _currentIndex,
+        keepPage: true
+    );
+  }
+
   String _title="Home Page";
   TextEditingController _heightController = new TextEditingController();
   TextEditingController _weightController = new TextEditingController();
@@ -205,10 +219,7 @@ class _ContainerMainState extends State<ContainerMain> {
   //   ExercisePage()
   // ];
 
-  PageController pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
+
 
   void pageChanged(int index) {
     setState(() {
@@ -229,7 +240,6 @@ class _ContainerMainState extends State<ContainerMain> {
       }
     });
   }
-
 
 
 
@@ -368,7 +378,7 @@ class _ContainerMainState extends State<ContainerMain> {
     authBloc.updateCurrentUser(int.parse(_heightController.text), int.parse(_weightController.text), () {
       GlobalList.setUpdateTime();
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ContainerMain())
+          MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0))
       );
     });
   }

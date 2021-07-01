@@ -21,11 +21,11 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
   ListBloc listBloc = new ListBloc();
 
   // get instance food variable
-  TextEditingController get _soluongController => TextEditingController(text: widget.food["soluong"].toString());
+  TextEditingController get _soluongController => TextEditingController(text: widget.food["soluong"].toStringAsFixed(0).toString());
   double get proteinIni => widget.food["protein"]+.0;
   double get beoIni => widget.food["beo"]+.0;
   double get carbsIni => widget.food["carbs"]+.0;
-  int get caloIni => widget.food["calo"];
+  double get caloIni => widget.food["calo"]+.0;
 
   Map<String, dynamic> maps;
 
@@ -328,7 +328,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
     // print(maps.toString());
     listBloc.updateThucAnUser(maps, () {
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ContainerMain())
+          MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
       );
     });
   }

@@ -114,7 +114,7 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
                           exercise["calo"]=double.parse(double.parse(exercise["calo"]).toStringAsFixed(0));
                           listBloc.updateTapLuyenUser(exercise, (){
                             Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ContainerMain())
+                                MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
                             );
                           });
                         }
@@ -236,7 +236,7 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
                                     listBloc.deleteTapluyenUser(exercise["docID"], () {
                                       LoadingDialog.hideLoadingDialog(context);
                                       Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) => ContainerMain())
+                                          MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
                                       );
                                     });
                                   },

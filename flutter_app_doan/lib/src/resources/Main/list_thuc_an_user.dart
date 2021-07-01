@@ -74,7 +74,7 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      '${thucAn["soluong"]} ${thucAn["donvitinh"]}',
+                                      '${thucAn["soluong"].toStringAsFixed(0)} ${thucAn["donvitinh"]}',
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -84,7 +84,7 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
                                           Text(
-                                            '${thucAn["calo"]} calo',
+                                            '${thucAn["calo"].toStringAsFixed(0)} calo',
                                             style: TextStyle(
                                                 fontSize: 18
                                             ),
@@ -120,7 +120,7 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                                     listBloc.deleteThucAnUser(thucAn["docID"], () {
                                       LoadingDialog.hideLoadingDialog(context);
                                       Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) => ContainerMain())
+                                          MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
                                       );
                                     });
                                   },

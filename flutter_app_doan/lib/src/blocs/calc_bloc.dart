@@ -16,7 +16,7 @@ class CalcBloc {
   Stream get carbsStream => _carbsController.stream;
   Stream get caloStream => _caloController.stream;
 
-  void CalcTPDinhDuong(double soluongIni, double soluong, double proteinIni, double beoIni, double carbsIni, int caloIni) {
+  void CalcTPDinhDuong(double soluongIni, double soluong, double proteinIni, double beoIni, double carbsIni, double caloIni) {
     _proteinIniController.sink.add(((proteinIni*soluong)/soluongIni).toStringAsFixed(2));
     _beoController.sink.add(((beoIni*soluong)/soluongIni).toStringAsFixed(2));
     _carbsController.sink.add(((carbsIni*soluong)/soluongIni).toStringAsFixed(2));

@@ -157,9 +157,9 @@ class _DinhDuongPageState extends State<DinhDuongPage> {
   void _onConfirmToAddListThucAn() {
     if (GlobalList.thucAnDaChon.length>0) {
       itemCheckedBloc.addlistThucAnDaChon((){
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => ContainerMain()
-        ));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
+        );
       });
     }
     else {
