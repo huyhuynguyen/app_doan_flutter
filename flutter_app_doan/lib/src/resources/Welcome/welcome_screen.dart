@@ -107,7 +107,10 @@ class _secondSignInState extends State<secondSignIn> {
   TextEditingController _emailController=new TextEditingController();
   TextEditingController _nameController=new TextEditingController();
   TextEditingController _yearOfBirthController=new TextEditingController();
-
+  String valueChoose;
+  List listItem =[
+    "Nam", "Nữ"
+  ];
   @override
   void dispose() {
     // TODO: implement dispose
@@ -190,6 +193,42 @@ class _secondSignInState extends State<secondSignIn> {
                             keyboardType: TextInputType.number,
                           );
                         }
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 16, right:16),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black54, width: 1),
+                          borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: DropdownButton(
+                          hint: Text("Chọn giới tính của bạn"),
+                           dropdownColor: Colors.blue[100],
+                           icon: Icon(Icons.arrow_drop_down),
+                           iconSize: 36,
+                           isExpanded: true,
+                           style: TextStyle(
+                             color: Colors.black,
+                             fontSize: 15
+                           ),
+                           value: valueChoose,
+                          onChanged: (newValue){
+                             setState(() {
+                               valueChoose=newValue;
+                             });
+                          },
+                          items:listItem.map((valueItem){
+                            return DropdownMenuItem(
+                             value: valueItem,
+                             child: Text(valueItem),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
                     SizedBox(
