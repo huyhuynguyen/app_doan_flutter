@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_app_doan/models/user.dart';
 import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthBloc {
   var _firauth= new FirAuth();
@@ -54,6 +55,11 @@ class AuthBloc {
 
   Future<dynamic> getValueUser(String key) async{
     var userValue=  await _firauth.getValueUser();
+    if (key=="age") {
+      DateTime now=new DateTime.now();
+      int age=now.year-int.parse(userValue['year of birth']);
+      return age.toString();
+    }
     return userValue[key];
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 import 'package:fluttericon/fontelico_icons.dart';
 
 import '../../../models/user.dart';
@@ -10,7 +11,7 @@ class ProfilePage extends StatelessWidget {
   AuthBloc authBloc = new AuthBloc();
   CalcBloc calcBloc = new CalcBloc();
 
-  DateTime now=new DateTime.now();
+  // DateTime now=new DateTime.now();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -147,7 +148,7 @@ class ProfilePage extends StatelessWidget {
                               children: <Widget>[
                                 Container(
                                   child: Text(
-                                    "Năm sinh",
+                                    "Tuổi",
                                     style: TextStyle(
                                         fontSize: 20,
                                       fontWeight: FontWeight.w600
@@ -158,7 +159,7 @@ class ProfilePage extends StatelessWidget {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: FutureBuilder(
-                                        future: authBloc.getValueUser('year of birth'),
+                                        future: authBloc.getValueUser('age'),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState == ConnectionState.done) {
                                             return Text(
@@ -270,14 +271,29 @@ class ProfilePage extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            margin: const EdgeInsets.only(top: 2),
-                                            child: Text(
-                                                '$now',
-                                              style: TextStyle(
-                                                fontSize: 16
-                                              ),
-                                            ),
+                                          FutureBuilder(
+                                            future: GlobalList.getUpdateTime(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.done) {
+                                                print(snapshot.data);
+                                                return Text(
+                                                  snapshot.data.toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 16
+                                                  ),
+                                                );
+                                              }
+                                              return CircularProgressIndicator();
+                                            },
+                                            // child: Container(
+                                            //   margin: const EdgeInsets.only(top: 2),
+                                            //   child: Text(
+                                            //       '${}',
+                                            //     style: TextStyle(
+                                            //       fontSize: 16
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           )
                                         ],
                                       ),

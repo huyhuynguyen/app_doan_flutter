@@ -7,7 +7,10 @@ import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
 import 'package:flutter_app_doan/src/resources/Welcome/login.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dinh_duong_page.dart';
 import 'profile_page.dart';
@@ -363,11 +366,13 @@ class _ContainerMainState extends State<ContainerMain> {
 
   void onUpdateBMI() {
     authBloc.updateCurrentUser(int.parse(_heightController.text), int.parse(_weightController.text), () {
+      GlobalList.setUpdateTime();
       Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => ContainerMain())
       );
     });
   }
+
 
 
 }
