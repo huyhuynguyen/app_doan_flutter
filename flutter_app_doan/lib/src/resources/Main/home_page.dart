@@ -156,7 +156,6 @@ class _HomePageState extends State<HomePage> {
                                     children: <Widget>[
                                       Column(
                                         children: <Widget>[
-                                          SizedBox(height: 10),
                                           Container(
                                             child: FutureBuilder(
                                                 future: _listBloc.caloDay(),
@@ -198,15 +197,14 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   ),
-                  SizedBox(height: 5),
                   Container(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: 20),
+                        SizedBox(height: 15),
                         Container(
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.white,
@@ -219,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
                               Column(
                                   children: <Widget>[

@@ -260,13 +260,14 @@ class _SecondSignInState extends State<SecondSignIn> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
-
                         width: 300.0,
+                        height: 45,
                         child: FlatButton(
                             onPressed: _onSignIn,
                             child: Text("Đăng ký",
                             style: TextStyle(
-                              color: Colors.white
+                              color: Colors.white,
+                              fontSize: 20
                             ),
                             ),
                           color: Colors.blue[700],
@@ -280,8 +281,8 @@ class _SecondSignInState extends State<SecondSignIn> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
-
                         width: 300.0,
+                        height: 45,
                         child: FlatButton(
                             onPressed: (){
                                   Navigator.push(
@@ -291,7 +292,8 @@ class _SecondSignInState extends State<SecondSignIn> {
                                 },
                             child: Text("Quay lại",
                               style: TextStyle(
-                                  color: Colors.white
+                                  color: Colors.white,
+                                fontSize: 20,
                               ),
                             ),
                             color: Colors.blue[700],

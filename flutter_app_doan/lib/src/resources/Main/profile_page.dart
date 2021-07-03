@@ -85,7 +85,7 @@ class ProfilePage extends StatelessWidget {
                         child: Text(
                           "Thông tin cơ bản",
                           style: TextStyle(
-                            fontSize: 25
+                            fontSize: 20
                           ),
                         ),
                       ),
@@ -232,7 +232,7 @@ class ProfilePage extends StatelessWidget {
                         child: Text(
                           "Thông tin BMI",
                           style: TextStyle(
-                              fontSize: 25
+                              fontSize: 20
                           ),
                         ),
                       ),

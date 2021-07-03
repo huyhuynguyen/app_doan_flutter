@@ -164,11 +164,13 @@ class _secondInforState extends State<secondInfor> {
                       child: SizedBox(
                         // Home(height: double.tryParse(_heightController.text) ?? 0.0, weight: double.tryParse(_weightController.text) ?? 0.0)
                         width: 300.0,
+                        height: 45,
                         child: FlatButton(
                             onPressed: _onGetToHome,
                             child: Text("Tiếp tục",
                               style: TextStyle(
-                                  color: Colors.white
+                                  color: Colors.white,
+                                fontSize: 20
                               ),
                             ),
                             color: Colors.blue[700],
@@ -179,8 +181,8 @@ class _secondInforState extends State<secondInfor> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
-
                         width: 300.0,
+                        height: 45,
                         child: FlatButton(
                             onPressed: (){
                               Navigator.push(
@@ -190,7 +192,8 @@ class _secondInforState extends State<secondInfor> {
                             },
                             child: Text("Quay lại",
                               style: TextStyle(
-                                  color: Colors.white
+                                  color: Colors.white,
+                                fontSize: 20
                               ),
                             ),
                             color: Colors.blue[700],
