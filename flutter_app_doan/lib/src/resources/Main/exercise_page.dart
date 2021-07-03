@@ -29,7 +29,7 @@ class _ExercisePageState extends State<ExercisePage> {
                 child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "Confirm to add ThucAn",
+                      "Confirm to add Exercise",
                       style: TextStyle(
                           fontSize: 20
                       ),

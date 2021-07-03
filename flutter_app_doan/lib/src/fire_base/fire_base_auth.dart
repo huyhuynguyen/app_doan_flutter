@@ -1,25 +1,27 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 
 class FirAuth {
   FirebaseAuth _auth = FirebaseAuth.instance;
   var firestoreInstance = FirebaseFirestore.instance;
 
-  void signIn(String email, String name, String yearOfBirth, Function onSuccess, Function(String) onError) async{
+  void signIn(Map<String, dynamic> user, Function onSuccess, Function(String) onError) async{
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: "123456");
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: user["email"], password: "123456");
       // success
-      return createUserDB(userCredential.user.uid, name, yearOfBirth, onSuccess, onError);
+      return createUserDB(userCredential.user.uid, user["name"], user["yearOfBirth"], user["gender"], onSuccess, onError);
     } on FirebaseAuthException catch (e) {
       _onSignInErr(e.code, onError);
     }
   }
 
-  void createUserDB(String uid, String name, String yearOfBirth, Function onSuccess, Function(String) onError) {
+  void createUserDB(String uid, String name, String yearOfBirth, String gender, Function onSuccess, Function(String) onError) {
     var user={
       "name" : name,
       "year of birth": yearOfBirth,
+      "gender": gender,
       "height": 0,
       "weight": 0
     };
@@ -104,6 +106,7 @@ class FirAuth {
   Future<void> addThucAnChosen(Map<String, dynamic> thucAnchosen, Function onSuccess) async{
     User user = _auth.currentUser;
     thucAnchosen["user"]=user.uid;
+    thucAnchosen["dateChon"]=GlobalList.time;
     await firestoreInstance.collection("user_ThucAn").add(thucAnchosen)
         .then((value) => onSuccess());
   }
@@ -115,7 +118,7 @@ class FirAuth {
     QuerySnapshot snapshot = await firestoreInstance.collection("user_ThucAn").get();
     final List<DocumentSnapshot> documents = snapshot.docs;
     documents.forEach((element) {
-      if (user.uid == element["user"]) {
+      if (user.uid == element["user"] && GlobalList.time == element["dateChon"]) {
         Map<String, dynamic> data = element.data();
         data["docID"] = element.id;
         arr.add(data);
@@ -150,6 +153,7 @@ class FirAuth {
   Future<void> addTapLuyenChosen(Map<String, dynamic> tapluyenchosen, Function onSuccess) async{
     User user = _auth.currentUser;
     tapluyenchosen["user"]=user.uid;
+    tapluyenchosen["dateChon"]=GlobalList.time;
     await firestoreInstance.collection("user_tapluyen").add(tapluyenchosen)
         .then((value) => onSuccess());
   }
@@ -161,7 +165,7 @@ class FirAuth {
     QuerySnapshot snapshot = await firestoreInstance.collection("user_tapluyen").get();
     final List<DocumentSnapshot> documents = snapshot.docs;
     documents.forEach((element) {
-      if (user.uid == element["user"]) {
+      if (user.uid == element["user"] && GlobalList.time == element["dateChon"]) {
         Map<String, dynamic> data = element.data();
         data["docID"]=element.id;
         arr.add(data);

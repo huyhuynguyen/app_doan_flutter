@@ -3,6 +3,7 @@ import 'package:flutter_app_doan/src/blocs/calc_calo_time_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
 import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 
 
 class ListExerciseUser extends StatefulWidget {
@@ -15,13 +16,14 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
   CalcCaloTimeBloc calcCaloTimeBloc;
   int timeIni;
   double caloIni;
-
+  String timeCurrent="";
   createDialogToUpdate(Map<String, dynamic> exercise) {
     calcCaloTimeBloc = new CalcCaloTimeBloc();
     TextEditingController _timeController = new TextEditingController();
     timeIni=exercise["time"];
     // print(exercise["calo"].runtimeType);
     caloIni=exercise["calo"]+.0;
+    timeCurrent = GlobalList.time;
     showDialog(context: context,
         builder: (context) => Dialog(
           child: Padding(
@@ -113,7 +115,7 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
                           exercise["time"]=int.parse(_timeController.text.trim());
                           exercise["calo"]=double.parse(double.parse(exercise["calo"]).toStringAsFixed(0));
                           listBloc.updateTapLuyenUser(exercise, (){
-                            Navigator.push(context,
+                            Navigator.pushReplacement(context,
                                 MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
                             );
                           });
@@ -258,6 +260,7 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
   }
 
   void _onTimeChange(String value) {
+    // GlobalList.time = timeCurrent;
     calcCaloTimeBloc.calcCaloFromTapLuyen(timeIni, int.tryParse(value) ?? 0, caloIni);
   }
 

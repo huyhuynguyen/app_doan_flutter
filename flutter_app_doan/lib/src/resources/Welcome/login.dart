@@ -8,6 +8,8 @@ import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
 import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
 import 'package:flutter_app_doan/src/resources/dialog/msg_dialog.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
+import 'package:intl/intl.dart';
 
 import 'welcome_screen.dart';
 
@@ -197,6 +199,7 @@ class _secondInforState extends State<secondInfor> {
     LoadingDialog.showLoadingDialog(context, "Welcome...");
     authBloc.logIn(_emailController.text.trim(), () {
       LoadingDialog.hideLoadingDialog(context);
+      GlobalList.time=DateFormat("yyyy-MM-dd").format(DateTime.now());
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0))
       );

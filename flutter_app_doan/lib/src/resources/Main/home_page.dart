@@ -58,13 +58,21 @@ class _HomePageState extends State<HomePage> {
                               Positioned(
                                 top: 20,
                                 left: 290,
-                                child: Text(
-                                  "Lượng \ncalo cần \nnạp là\n750",
-                                style: kHeadingTextStyle.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 25
+                                child: FutureBuilder(
+                                  future: calcBloc.TDEECalc(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      return Text(
+                                          'Lượng \ncalo cần \nnạp là\n${snapshot.data}',
+                                          style: kHeadingTextStyle.copyWith(
+                                            color: Colors.white,
+                                            fontSize: 25
+                                        ),
+                                      );
+                                    }
+                                    return CircularProgressIndicator();
+                                  },
                                 ),
-                              ),
                              ),
                             ]
                           ),
@@ -275,13 +283,20 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     SizedBox(height: 10),
-                                    Text(
-                                      "527.0",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        color: Colors.blue[800],
-
-                                      ),
+                                    FutureBuilder(
+                                      future: calcBloc.BMRCalc(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.done) {
+                                          return Text(
+                                            snapshot.data.toString(),
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              color: Colors.blue[800],
+                                            ),
+                                          );
+                                        }
+                                        return CircularProgressIndicator();
+                                      },
                                     ),
                                     Text("BMR", style: kSubTextStyle,)
                                   ]
@@ -308,13 +323,21 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                     SizedBox(height: 10),
-                                    Text(
-                                      "632.0",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        color: kInfectedColor,
+                                    FutureBuilder(
+                                      future: calcBloc.TDEECalc(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState == ConnectionState.done) {
+                                          return Text(
+                                            snapshot.data.toString(),
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              color: kInfectedColor,
 
-                                      ),
+                                            ),
+                                          );
+                                        }
+                                        return CircularProgressIndicator();
+                                      },
                                     ),
                                     Text("TDEE", style: kSubTextStyle,)
                                   ]
@@ -389,7 +412,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         ListExerciseUser(),
                         Container(
-                          margin: EdgeInsets.only(top: 20),
+                          margin: EdgeInsets.only(top: 20, bottom: 70),
                           padding: EdgeInsets.all(20),
                           height: 185,
                           width: double.infinity,

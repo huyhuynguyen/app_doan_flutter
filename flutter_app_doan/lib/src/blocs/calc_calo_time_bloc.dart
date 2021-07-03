@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
+
 class CalcCaloTimeBloc {
   StreamController _caloController = new StreamController();
   StreamController _timeController = new StreamController();
@@ -9,6 +11,7 @@ class CalcCaloTimeBloc {
 
   void calcCaloFromTapLuyen(int timeIni, int time, double caloIni) {
     _caloController.sink.add(((caloIni*time)/timeIni).toStringAsFixed(0));
+    print('Time Change: ${GlobalList.time}');
   }
 
   bool checkTimeChange(int time) {

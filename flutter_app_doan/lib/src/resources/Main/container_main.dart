@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
+import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
 import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
 import 'package:flutter_app_doan/src/resources/Main/them_thuc_don.dart';
 import 'package:flutter_app_doan/src/resources/Main/exercise_page.dart';
@@ -26,6 +27,8 @@ class ContainerMain extends StatefulWidget {
 class _ContainerMainState extends State<ContainerMain> {
   int _currentIndex;
   PageController pageController;
+  // String time="";
+  // DateFormat dateFormat;
 
   @override
   void initState() {
@@ -37,6 +40,8 @@ class _ContainerMainState extends State<ContainerMain> {
         initialPage: _currentIndex,
         keepPage: true
     );
+    // dateFormat = DateFormat("yyyy-MM-dd");
+    // time=dateFormat.format(DateTime.now());
   }
 
   String _title="Home Page";
@@ -44,6 +49,7 @@ class _ContainerMainState extends State<ContainerMain> {
   TextEditingController _weightController = new TextEditingController();
 
   AuthBloc authBloc = new AuthBloc();
+  CalcBloc calcBloc = new CalcBloc();
 
   createSimpleAlertDialog() {
     showDialog(context: context, useRootNavigator: false, builder: (context) {
@@ -220,6 +226,13 @@ class _ContainerMainState extends State<ContainerMain> {
   // ];
 
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    authBloc.dispose();
+    calcBloc.dispose();
+  }
 
   void pageChanged(int index) {
     setState(() {
@@ -232,16 +245,14 @@ class _ContainerMainState extends State<ContainerMain> {
           _title="Khẩu phần ăn";
           break;
         case 2:
-          _title="Profile";
+          _title="Exercise";
           break;
         case 3:
-          _title="Exercise";
+          _title="Profile";
           break;
       }
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -250,16 +261,7 @@ class _ContainerMainState extends State<ContainerMain> {
       home: Scaffold(
         appBar: AppBar(
           title: Text(_title),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.logout),
-                onPressed: () {
-                  authBloc.logOut(() {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
-                  });
-                }
-            )
-          ],
+          actions: _atHomeOrNot()
         ),
         body:
         // Container(
@@ -273,11 +275,11 @@ class _ContainerMainState extends State<ContainerMain> {
           children: [
             HomePage(),
             DinhDuongPage(),
+            ExercisePage(),
             ProfilePage(),
-            ExercisePage()
           ],
         ),
-        floatingActionButton: SpeedDial(
+        floatingActionButton: (_currentIndex==0 || _currentIndex==3) ? SpeedDial(
           overlayColor: Colors.black,
           overlayOpacity: 0.5,
           backgroundColor: Theme.of(context).primaryColor,
@@ -321,7 +323,7 @@ class _ContainerMainState extends State<ContainerMain> {
                 }
             ),
           ],
-        ),
+        ) : null,
         bottomNavigationBar: BottomNavigationBar(
           fixedColor: Colors.white,
           selectedFontSize: 15,
@@ -336,12 +338,12 @@ class _ContainerMainState extends State<ContainerMain> {
                 label: "Meal",
                 backgroundColor: Colors.blue),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Profile",
-                backgroundColor: Colors.blue),
-            BottomNavigationBarItem(
                 icon: Icon(Icons.fitness_center),
                 label: "Exercise",
+                backgroundColor: Colors.blue),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: "Profile",
                 backgroundColor: Colors.blue),
           ],
           currentIndex: _currentIndex,
@@ -361,10 +363,10 @@ class _ContainerMainState extends State<ContainerMain> {
                   _title="Khẩu phần ăn";
                   break;
                 case 2:
-                  _title="Profile";
+                  _title="Exercise";
                   break;
                 case 3:
-                  _title="Exercise";
+                  _title="Profile";
                   break;
               }
             });
@@ -383,6 +385,80 @@ class _ContainerMainState extends State<ContainerMain> {
     });
   }
 
+  String _onChangeDateShow(AsyncSnapshot<dynamic> snapshot) {
+    if (snapshot.hasData){
+      GlobalList.time=snapshot.data;
+    }
+    return GlobalList.time;
+  }
+
+  void _addOneDay() {
+    calcBloc.addOneDay(GlobalList.time);
+    if (_currentIndex==0) {
+      setState(() {
+
+      });
+    }
+  }
+
+  void _minusOneDay() {
+    calcBloc.minusOneDay(GlobalList.time);
+    if (_currentIndex==0) {
+      setState(() {
+
+      });
+    }
+  }
+
+  List<Widget> _atHomeOrNot() {
+    if (_currentIndex == 0 || _currentIndex == 1 || _currentIndex == 2) {
+      calcBloc = new CalcBloc();
+      return <Widget>[
+        IconButton(
+            iconSize: 20,
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: _minusOneDay
+        ),
+        IconButton(
+            icon: Icon(Icons.date_range),
+            onPressed: () {
+              showDatePicker(
+                  context: context,
+                  initialDate: DateTime.parse(GlobalList.time),
+                  firstDate: DateTime(2001),
+                  lastDate: DateTime(2022)
+              ).then((value) {
+                calcBloc.getDayCalendar(value);
+                setState(() {
+
+                });
+              });
+            }
+        ),
+        Align(
+            alignment: Alignment.center,
+            child: StreamBuilder(
+                stream: calcBloc.dateStream,
+                builder: (context, snapshot) {
+                  return Text(
+                    '${_onChangeDateShow(snapshot)}',
+                    style: TextStyle(
+                        fontSize: 18
+                    ),
+                  );
+                }
+            )
+        ),
+        IconButton(
+          iconSize: 20,
+          icon: Icon(Icons.arrow_forward_ios),
+          onPressed: _addOneDay,
+        ),
+      ];
+    }
+    calcBloc.dispose();
+    return [];
+  }
 
 
 }

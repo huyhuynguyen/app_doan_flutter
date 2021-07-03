@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
+import 'package:flutter_app_doan/src/resources/Welcome/login.dart';
 import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 import 'package:fluttericon/fontelico_icons.dart';
+import 'package:intl/intl.dart';
 
 import '../../../models/user.dart';
 
@@ -160,6 +163,41 @@ class ProfilePage extends StatelessWidget {
                                       alignment: Alignment.centerRight,
                                       child: FutureBuilder(
                                         future: authBloc.getValueUser('age'),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState == ConnectionState.done) {
+                                            return Text(
+                                              snapshot.data,
+                                              style: TextStyle(
+                                                  fontSize: 20
+                                              ),
+                                            );
+                                          }
+                                          return CircularProgressIndicator();
+                                        },
+                                      ),
+                                    )
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Text(
+                                    "Giới tính",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: FutureBuilder(
+                                        future: authBloc.getValueUser('gender'),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState == ConnectionState.done) {
                                             return Text(
@@ -385,6 +423,34 @@ class ProfilePage extends StatelessWidget {
                       ),
                     )
                   ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 0, bottom: 80, left: 20, right: 20),
+                child: ElevatedButton(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.logout),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            "Log out",
+                            style: TextStyle(
+                              fontSize: 20
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  onPressed: (){
+                    authBloc.logOut(() {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                    });
+                  },
                 ),
               )
             ],

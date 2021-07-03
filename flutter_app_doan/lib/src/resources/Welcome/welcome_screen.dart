@@ -33,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
             //
             // ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 65.0),
+              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 35.0),
               child: Center(
                 child: Column(
                   children: <Widget>[
@@ -70,7 +70,7 @@ class WelcomeScreen extends StatelessWidget {
                 SizedBox(
                   height: 100.0,
                 ),
-                Material(
+                Container(
                   color: Colors.blue[400],
                   child:Row(
                     children: <Widget>[
@@ -86,7 +86,7 @@ class WelcomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                secondSignIn()
+                SecondSignIn()
               ],
             ),
           ],
@@ -96,12 +96,12 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-class secondSignIn extends StatefulWidget {
+class SecondSignIn extends StatefulWidget {
   @override
-  _secondSignInState createState() => _secondSignInState();
+  _SecondSignInState createState() => _SecondSignInState();
 }
 
-class _secondSignInState extends State<secondSignIn> {
+class _SecondSignInState extends State<SecondSignIn> {
   AuthBloc authBloc = new AuthBloc();
 
   TextEditingController _emailController=new TextEditingController();
@@ -111,6 +111,7 @@ class _secondSignInState extends State<secondSignIn> {
   List listItem =[
     "Nam", "Nữ"
   ];
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -195,45 +196,67 @@ class _secondSignInState extends State<secondSignIn> {
                         }
                       ),
                     ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        padding: EdgeInsets.only(left: 16, right:16),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black54, width: 1),
-                          borderRadius: BorderRadius.circular(15)
-                        ),
-                        child: DropdownButton(
-                          hint: Text("Chọn giới tính của bạn"),
-                           dropdownColor: Colors.blue[100],
-                           icon: Icon(Icons.arrow_drop_down),
-                           iconSize: 36,
-                           isExpanded: true,
-                           style: TextStyle(
-                             color: Colors.black,
-                             fontSize: 15
-                           ),
-                           value: valueChoose,
-                          onChanged: (newValue){
-                             setState(() {
-                               valueChoose=newValue;
-                             });
-                          },
-                          items:listItem.map((valueItem){
-                            return DropdownMenuItem(
-                             value: valueItem,
-                             child: Text(valueItem),
-                            );
-                          }).toList(),
-                        ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: 16, right:16),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black54, width: 1),
+                              borderRadius: BorderRadius.circular(15)
+                            ),
+                            child: DropdownButton(
+                              hint: Text("Chọn giới tính của bạn"),
+                               dropdownColor: Colors.blue[100],
+                               icon: Icon(Icons.arrow_drop_down),
+                               iconSize: 36,
+                               isExpanded: true,
+                               style: TextStyle(
+                                 color: Colors.black,
+                                 fontSize: 15
+                               ),
+                               value: valueChoose,
+                              onChanged: (newValue){
+                                 setState(() {
+                                   valueChoose=newValue;
+                                 });
+                              },
+                              items:listItem.map((valueItem){
+                                return DropdownMenuItem(
+                                 value: valueItem,
+                                 child: Text(valueItem),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5, left: 10),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: StreamBuilder(
+                                stream: authBloc.genderStream,
+                                builder: (context, snapshot) {
+                                  return Text(
+                                    snapshot.hasError ? snapshot.error : "",
+                                    style: TextStyle(
+                                      color: Colors.red[800],
+                                      fontSize: 14
+                                    ),
+                                  );
+                                }
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
@@ -251,9 +274,9 @@ class _secondSignInState extends State<secondSignIn> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
@@ -287,13 +310,14 @@ class _secondSignInState extends State<secondSignIn> {
   }
 
   void _onSignIn() {
-    User user=new User(
-        email: _emailController.text.trim(),
-        name: _nameController.text.trim(),
-        yearOfBirth: _yearOfBirthController.text.trim(),
-        height: 0,
-        weight: 0
-    );
+    Map<String, dynamic> user = {
+      "email": _emailController.text.trim(),
+      "name": _nameController.text.trim(),
+      "yearOfBirth": _yearOfBirthController.text.trim(),
+      "gender": valueChoose,
+    };
+
+    print(user);
 
     if (authBloc.isValid(user)) {
       LoadingDialog.showLoadingDialog(context, "Welcome...");

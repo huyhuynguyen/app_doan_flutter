@@ -3,6 +3,7 @@ import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_calo_time_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 import 'package:flutter_app_doan/src/resources/selectedTick/selected_tick.dart';
 
 class ListExercise extends StatefulWidget {
@@ -18,12 +19,15 @@ class _ListExerciseState extends State<ListExercise> {
   CalcCaloTimeBloc calcCaloTimeBloc;
   int timeIni;
   double caloIni;
+  String timeCurrent="";
 
   createDialogToAdd(Map<String, dynamic> exercise) {
     calcCaloTimeBloc = new CalcCaloTimeBloc();
     TextEditingController _timeController = new TextEditingController();
     timeIni=exercise["time"];
     caloIni=exercise["calo"]+.0;
+    print('Time ${GlobalList.time}');
+    timeCurrent=GlobalList.time;
     showDialog(context: context,
         builder: (context) => Dialog(
           child: Padding(
@@ -111,13 +115,25 @@ class _ListExerciseState extends State<ListExercise> {
                     ),
                     TextButton(
                       onPressed: (){
+                        // print('GlobalList.time: ${GlobalList.time}');
+                        // Navigator.pop(context);
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
+                        // );
                         if (calcCaloTimeBloc.checkTimeChange(int.tryParse(_timeController.text) ?? 0)) {
                           exercise["time"]=int.parse(_timeController.text.trim());
                           exercise["calo"]=double.parse(double.parse(exercise["calo"]).toStringAsFixed(0));
+                          // print('GlobalList.time: ${GlobalList.time}');
+                          // Navigator.push(context,
+                          //     MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
+                          // );
                           listBloc.addTapluyenChosen(exercise, (){
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
-                            );
+                            print(GlobalList.time);
+                            // GlobalList.time=timeCurrent;
+                            Navigator.pop(context);
+                            // Navigator.push(context,
+                            //     MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
+                            // );
                           });
                         }
                       },
@@ -233,6 +249,7 @@ class _ListExerciseState extends State<ListExercise> {
   }
 
   void _onTimeChange(String value) {
+    GlobalList.time=timeCurrent;
     calcCaloTimeBloc.calcCaloFromTapLuyen(timeIni, int.tryParse(value) ?? 0, caloIni);
   }
 

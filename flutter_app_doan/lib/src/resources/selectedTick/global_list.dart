@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class GlobalList {
   static List<Map<String, dynamic>> thucAnDaChon=[];
   static List<Map<String, dynamic>> tapLuyenDaChon=[];
+  static String time = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
   static void setUpdateTime() async {
     DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
