@@ -41,4 +41,19 @@ class FireStoreList {
 
     return arr;
   }
+
+  Future<dynamic> getAllNotes() async{
+    User user = FirebaseAuth.instance.currentUser;
+    var arr =[];
+    QuerySnapshot snapshot = await _fireStoreInstance.collection("note").get();
+    final List<DocumentSnapshot> documents = snapshot.docs;
+    documents.forEach((element) {
+      if (user.uid == element["user"]) {
+        Map<String, dynamic> data = element.data();
+        data["docID"]=element.id;
+        arr.add(data);
+      }
+    });
+    return arr;
+  }
 }

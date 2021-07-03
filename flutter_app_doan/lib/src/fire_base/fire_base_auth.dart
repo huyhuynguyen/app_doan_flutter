@@ -188,6 +188,27 @@ class FirAuth {
         .delete().then((value) => onSuccess());
   }
 
+  Future<void> addToNote(Map<String, String> note, Function onSuccess) async{
+    User user = _auth.currentUser;
+    note["user"]=user.uid;
+    await firestoreInstance.collection("note").add(note)
+        .then((value) => onSuccess());
+  }
+
+  Future<void> deleteNote(String noteId, Function onSuccess) async{
+    await firestoreInstance
+        .collection("note")
+        .doc(noteId)
+        .delete().then((value) => onSuccess());
+  }
+  
+  Future<void> updateNote(Map<String, String> noteNew, String noteID, Function onSuccess) async {
+    await firestoreInstance
+        .collection("note")
+        .doc(noteID)
+        .update(noteNew).then((value) => onSuccess());
+  }
+
   void _onSignInErr(String code, Function(String) onError) {
     switch(code) {
       case "email-already-in-use":

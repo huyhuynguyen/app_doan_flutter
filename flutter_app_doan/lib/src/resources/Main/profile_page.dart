@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
+import 'package:flutter_app_doan/src/resources/Main/ghi_chu_page.dart';
 import 'package:flutter_app_doan/src/resources/Welcome/login.dart';
 import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 import 'package:fluttericon/fontelico_icons.dart';
@@ -423,6 +424,34 @@ class ProfilePage extends StatelessWidget {
                       ),
                     )
                   ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 0, bottom: 20, left: 20, right: 20),
+                child: ElevatedButton(
+                    onPressed: (){
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => GhiChuPage())
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.event_note_rounded),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Text(
+                              "Xem ghi chú",
+                              style: TextStyle(
+                                  fontSize: 20
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                 ),
               ),
               Container(
