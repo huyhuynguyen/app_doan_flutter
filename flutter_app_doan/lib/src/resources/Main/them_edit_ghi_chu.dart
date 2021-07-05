@@ -266,6 +266,13 @@ class _ThemEditGhiChuState extends State<ThemEditGhiChu> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Đã thêm ghi chú"))
         );
+        // Navigator.pushReplacement(context,
+        //     MaterialPageRoute(builder: (context) => GhiChuPage())
+        // );
+        Navigator.replace(context,
+            oldRoute: MaterialPageRoute(builder: (context) => ThemEditGhiChu()),
+            newRoute: MaterialPageRoute(builder: (context) => GhiChuPage())
+        );
       });
     }
   }
@@ -282,6 +289,13 @@ class _ThemEditGhiChuState extends State<ThemEditGhiChu> {
       ghiChuBloc.updateNote(noteNew, this.widget.note["docID"], (){
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Đã sửa ghi chú"))
+        );
+        // Navigator.pushReplacement(context,
+        //     MaterialPageRoute(builder: (context) => GhiChuPage())
+        // );
+        Navigator.replace(context,
+            oldRoute: MaterialPageRoute(builder: (context) => ThemEditGhiChu()),
+            newRoute: MaterialPageRoute(builder: (context) => GhiChuPage())
         );
       });
     }
