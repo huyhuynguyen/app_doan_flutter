@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/fake_data.dart';
 import 'package:flutter_app_doan/src/blocs/item_checked_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_them.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
 import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 
@@ -12,7 +13,7 @@ class DinhDuongPage extends StatefulWidget {
   _DinhDuongPageState createState() => _DinhDuongPageState();
 }
 
-class _DinhDuongPageState extends State<DinhDuongPage> {
+class _DinhDuongPageState extends State<DinhDuongPage> with TickerProviderStateMixin {
   var _searchController=TextEditingController();
   ItemCheckedBloc itemCheckedBloc = new ItemCheckedBloc();
 
@@ -145,9 +146,55 @@ class _DinhDuongPageState extends State<DinhDuongPage> {
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
           Expanded(
-              child: ListThucAn(searchText: _searchController.text)
-          )
+            child: DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  Container(
+                    constraints: BoxConstraints.expand(height: 50),
+                    child: TabBar(
+                        onTap: (value){
+                          print(value);
+                        },
+                        labelStyle: TextStyle(
+                          fontSize: 18
+                        ),
+                        unselectedLabelColor: Colors.lightBlue[200],
+                        labelColor: const Color(0xff19a7ee),
+                        indicatorWeight: 4,
+                        indicatorColor: Colors.blue[200],
+                        tabs: [
+                            Tab(text: "Thực đơn",),
+                            Tab(text: "Tự chọn")
+                        ]
+                    ),
+                  ),
+                  Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(top: 20),
+                        child: TabBarView(
+                          children: [
+                            Container(
+                              child: ListThucAn(searchText: _searchController.text),
+                            ),
+                            Container(
+                              child: ListThucAnThem(searchText: _searchController.text),
+                            )
+                          ],
+                        ),
+                      )
+                  )
+                ],
+              ),
+            ),
+          ),
+          // Expanded(
+          //     child: ListThucAn(searchText: _searchController.text)
+          // )
         ],
       ),
     );

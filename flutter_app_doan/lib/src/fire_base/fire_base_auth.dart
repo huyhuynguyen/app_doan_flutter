@@ -141,6 +141,13 @@ class FirAuth {
         .delete().then((value) => onSuccess());
   }
 
+  Future<void> deleteThucAnTuChon(String thucAnTuChonId, Function onSuccess) async {
+    await firestoreInstance
+        .collection("ThucAn")
+        .doc(thucAnTuChonId)
+        .delete().then((value) => onSuccess());
+  }
+
   // thêm thực đơn
   Future<void> addNewThucAnForUser(Map<String, dynamic> thucAnToAdd, Function onSuccess) async {
     User user = _auth.currentUser;
@@ -156,6 +163,13 @@ class FirAuth {
     tapluyenchosen["dateChon"]=GlobalList.time;
     await firestoreInstance.collection("user_tapluyen").add(tapluyenchosen)
         .then((value) => onSuccess());
+  }
+
+  Future<void> deleteTapLuyenTuChon(String tapLuyenTuChonId, Function onSuccess) async {
+    await firestoreInstance
+        .collection("tapluyen")
+        .doc(tapLuyenTuChonId)
+        .delete().then((value) => onSuccess());
   }
 
   // listTapLuyen mà user đã chọn và hiển thị bên trang homePage
@@ -186,6 +200,14 @@ class FirAuth {
         .collection("user_tapluyen")
         .doc(tapluyenUserDocId)
         .delete().then((value) => onSuccess());
+  }
+
+  // thêm tập luyện
+  Future<void> addNewTapLuyenForUser(Map<String, dynamic> tapluyen, Function onSuccess) async {
+    User user = _auth.currentUser;
+    tapluyen["user"]=user.uid;
+    await firestoreInstance.collection("tapluyen").add(tapluyen)
+        .then((value) => onSuccess());
   }
 
   Future<void> addToNote(Map<String, String> note, Function onSuccess) async{

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/fake_data.dart';
 import 'package:flutter_app_doan/src/blocs/item_checked_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
+import 'package:flutter_app_doan/src/resources/Main/list_exercise_them.dart';
 import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 
 import 'list_exercise.dart';
@@ -144,9 +145,55 @@ class _ExercisePageState extends State<ExercisePage> {
               ),
             ),
           ),
+          SizedBox(
+            height: 20,
+          ),
           Expanded(
-              child: ListExercise(searchText: _searchController.text)
-          )
+            child: DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  Container(
+                    constraints: BoxConstraints.expand(height: 50),
+                    child: TabBar(
+                        onTap: (value){
+                          print(value);
+                        },
+                        labelStyle: TextStyle(
+                            fontSize: 18
+                        ),
+                        unselectedLabelColor: Colors.lightBlue[200],
+                        labelColor: const Color(0xff19a7ee),
+                        indicatorWeight: 4,
+                        indicatorColor: Colors.blue[200],
+                        tabs: [
+                          Tab(text: "Tập luyện",),
+                          Tab(text: "Tự chọn")
+                        ]
+                    ),
+                  ),
+                  Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(top: 20),
+                        child: TabBarView(
+                          children: [
+                            Container(
+                              child: ListExercise(searchText: _searchController.text),
+                            ),
+                            Container(
+                              child: ListExerciseThem(searchText: _searchController.text),
+                            )
+                          ],
+                        ),
+                      )
+                  )
+                ],
+              ),
+            ),
+          ),
+          // Expanded(
+          //     child: ListExercise(searchText: _searchController.text)
+          // )
         ],
       ),
     );

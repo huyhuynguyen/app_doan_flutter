@@ -10,12 +10,17 @@ import 'package:intl/intl.dart';
 
 import '../../../models/user.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
 
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   AuthBloc authBloc = new AuthBloc();
+
   CalcBloc calcBloc = new CalcBloc();
 
-  // DateTime now=new DateTime.now();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -324,15 +329,6 @@ class ProfilePage extends StatelessWidget {
                                               }
                                               return CircularProgressIndicator();
                                             },
-                                            // child: Container(
-                                            //   margin: const EdgeInsets.only(top: 2),
-                                            //   child: Text(
-                                            //       '${}',
-                                            //     style: TextStyle(
-                                            //       fontSize: 16
-                                            //     ),
-                                            //   ),
-                                            // ),
                                           )
                                         ],
                                       ),
@@ -455,7 +451,73 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 0, bottom: 80, left: 20, right: 20),
+                margin: const EdgeInsets.only(top: 0, bottom: 0, left: 20, right: 20),
+                child: Column(
+                  children: [
+                    Align(
+                      child: Text(
+                          "Đánh giá ứng dụng này",
+                        style: TextStyle(
+                          fontSize: 20
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            iconSize: 35,
+                            icon: Icon(
+                                Icons.star,
+                                color: Colors.yellow[600],
+                            ),
+                            onPressed: (){
+
+                            }
+                        ),
+                        IconButton(
+                            iconSize: 35,
+                            icon: Icon(
+                              Icons.star,
+                              color: Colors.yellow[600],
+                            ),
+                            onPressed: (){
+
+                            }
+                        ),
+                        IconButton(
+                            iconSize: 35,
+                            icon: Icon(
+                              Icons.star,
+                              color: Colors.yellow[600],
+                            ),
+                            onPressed: (){
+
+                            }
+                        ),
+                        IconButton(
+                            iconSize: 35,
+                            icon: Icon(
+                              Icons.star,
+                              color: Colors.yellow[600],
+                            ),
+                            onPressed: (){
+
+                            }
+                        ),
+                        IconButton(
+                            iconSize: 35,
+                            icon: Icon(Icons.star_border),
+                            onPressed: (){}
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 30, bottom: 80, left: 20, right: 20),
                 child: ElevatedButton(
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -477,7 +539,7 @@ class ProfilePage extends StatelessWidget {
                   ),
                   onPressed: (){
                     authBloc.logOut(() {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginPage()));
                     });
                   },
                 ),

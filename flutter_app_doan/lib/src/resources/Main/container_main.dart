@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_doan/models/user.dart';
+import 'package:flutter_app_doan/src/blocs/add_tapluyen_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/auth_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
 import 'package:flutter_app_doan/src/fire_base/fire_base_auth.dart';
@@ -47,6 +48,10 @@ class _ContainerMainState extends State<ContainerMain> {
   String _title="Home Page";
   TextEditingController _heightController = new TextEditingController();
   TextEditingController _weightController = new TextEditingController();
+
+  TextEditingController _nameController = new TextEditingController();
+  TextEditingController _minuteController = new TextEditingController();
+  TextEditingController _caloTapLuyenController = new TextEditingController();
 
   AuthBloc authBloc = new AuthBloc();
   CalcBloc calcBloc = new CalcBloc();
@@ -218,6 +223,157 @@ class _ContainerMainState extends State<ContainerMain> {
     });
   }
 
+  createAlertDialogForAddTapLuyen() {
+    AddTapLuyenBloc addTapLuyenBloc = new AddTapLuyenBloc();
+    showDialog(context: context, useRootNavigator: false, builder: (context) {
+      return Dialog(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Thêm bài tập",
+                      style: TextStyle(
+                          fontSize: 20
+                      ),
+                    )
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                              child: StreamBuilder(
+                                stream: addTapLuyenBloc.nameStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    controller: _nameController,
+                                    style: TextStyle(
+                                        fontSize: 16
+                                    ),
+                                    decoration: InputDecoration(
+                                        hintText: "Tên bài tập",
+                                        contentPadding: const EdgeInsets.only(left: 5),
+                                        errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                              child: StreamBuilder(
+                                stream: addTapLuyenBloc.minuteStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    controller: _minuteController,
+                                    style: TextStyle(
+                                        fontSize: 16
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                        hintText: "Số phút",
+                                        contentPadding: const EdgeInsets.only(left: 5),
+                                        errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                              child: StreamBuilder(
+                                stream: addTapLuyenBloc.caloTapLuyenStream,
+                                builder: (context, snapshot) {
+                                  return TextField(
+                                    controller: _caloTapLuyenController,
+                                    style: TextStyle(
+                                        fontSize: 16
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                        hintText: "Calo bài tập",
+                                        contentPadding: const EdgeInsets.only(left: 5),
+                                        errorText: snapshot.hasError ? snapshot.error : null
+                                    ),
+                                  );
+                                }
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                        onPressed: (){
+                          _nameController.text="";
+                          _minuteController.text="";
+                          _caloTapLuyenController.text="";
+                          Navigator.pop(context);
+                        },
+                        child: Text("Hủy")
+                    ),
+                    TextButton(
+                        onPressed: (){
+                          Map<String, dynamic> tapluyen = {
+                            "name" : _nameController.text.trim(),
+                            "time" : int.tryParse(_minuteController.text.trim()) ?? 0,
+                            "calo" : int.tryParse(_caloTapLuyenController.text.trim()) ?? 0,
+                          };
+                          if (addTapLuyenBloc.isValidTapLuyen(tapluyen)) {
+                            addTapLuyenBloc.addNewTapLuyenForUser(tapluyen, (){
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 2,))
+                              );
+                            });
+                          }
+                        },
+                        child: Text("Thêm")
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    }).then((exit) {
+      if (exit==null || exit) {
+        _nameController.text="";
+        _minuteController.text="";
+        _caloTapLuyenController.text="";
+        addTapLuyenBloc.dispose();
+        return;
+      }
+    });
+  }
+
   // final List<Widget> _tabs=[
   //   HomePage(),
   //   DinhDuongPage(),
@@ -290,6 +446,22 @@ class _ContainerMainState extends State<ContainerMain> {
           foregroundColor: Colors.white,
           activeIcon: Icons.close,
           children: [
+            SpeedDialChild(
+                child: Icon(
+                  Icons.fitness_center_rounded,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.red[600],
+                label: "Thêm tập luyện",
+                labelBackgroundColor: Colors.red[600],
+                labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18
+                ),
+                onTap: () {
+                  createAlertDialogForAddTapLuyen();
+                }
+            ),
             SpeedDialChild(
                 child: Icon(
                   Icons.set_meal,
@@ -459,6 +631,4 @@ class _ContainerMainState extends State<ContainerMain> {
     calcBloc.dispose();
     return [];
   }
-
-
 }

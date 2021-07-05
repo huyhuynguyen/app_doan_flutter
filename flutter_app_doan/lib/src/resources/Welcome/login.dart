@@ -13,7 +13,40 @@ import 'package:intl/intl.dart';
 
 import 'welcome_screen.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Do you want to close this app?"),
+            actions: [
+              TextButton(
+                  onPressed: (){
+                    Navigator.pop(context, false);
+                  },
+                  child: Text("No")
+              ),
+              TextButton(
+                  onPressed: (){
+                    Navigator.pop(context, true);
+                  },
+                  child: Text("Yes")
+              ),
+            ],
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -23,77 +56,75 @@ class LoginPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Material(
-        child: Stack(
-          children: <Widget>[
-            new Container(
-              decoration: new BoxDecoration(
-                image: new DecorationImage(image: new AssetImage("assets/images/background-firstPage.png"),
-                  fit: BoxFit.cover,),
-              ),
-            ),
-            // Image(
-            //   image: AssetImage("assets/images/background-firstPage.png"),
-            //   color: Colors.teal.shade400,
-            //
-            // ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 65.0),
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    CircleAvatar(
-                        radius: 45.0,
-                        backgroundColor: Colors.blue[400],
-                        child: Image(
-                          image: AssetImage("assets/images/circle-avatar.png"),
-                        )
-                    ),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                    Text("Đăng nhập",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 40.0
-                      ),
-                    ),
-                    Text(
-                      "Bạn đã có tài khoản",
-                      style: TextStyle(
-                          color: Colors.white
-                      ),
-                    ),
-                  ],
+        child: WillPopScope(
+          onWillPop: _onBackPressed,
+          child: Stack(
+            children: <Widget>[
+              new Container(
+                decoration: new BoxDecoration(
+                  image: new DecorationImage(image: new AssetImage("assets/images/background-firstPage.png"),
+                    fit: BoxFit.cover,),
                 ),
               ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 100.0,
-                ),
-                Material(
-                  color: Colors.blue[400],
-                  child:Row(
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 65.0),
+                child: Center(
+                  child: Column(
                     children: <Widget>[
-                      SizedBox(
-                        width: 30.0,
+                      CircleAvatar(
+                          radius: 45.0,
+                          backgroundColor: Colors.blue[400],
+                          child: Image(
+                            image: AssetImage("assets/images/circle-avatar.png"),
+                          )
                       ),
-                      Text("Nếu chưa có tài khoản, hãy nhấn vào đăng ký",
+                      SizedBox(
+                        height: 2.0,
+                      ),
+                      Text("Đăng nhập",
                         style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 40.0
+                        ),
+                      ),
+                      Text(
+                        "Bạn đã có tài khoản",
+                        style: TextStyle(
+                            color: Colors.white
                         ),
                       ),
                     ],
                   ),
                 ),
-                secondInfor()
-              ],
-            ),
-          ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 100.0,
+                  ),
+                  Material(
+                    color: Colors.blue[400],
+                    child:Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 30.0,
+                        ),
+                        Text("Nếu chưa có tài khoản, hãy nhấn vào đăng ký",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  secondInfor()
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

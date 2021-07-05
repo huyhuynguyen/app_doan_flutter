@@ -15,13 +15,23 @@ class FireStoreList {
         dataElement["id"]=element.id;
         arr.add(dataElement);
       }
-      else {
-        if (dataElement['user']==user.uid) {
-          dataElement["id"]=element.id;
-          arr.add(dataElement);
-        }
-      }
+    });
 
+    return arr;
+  }
+
+  // get all thucAnThem in dinhduongPage
+  Future<dynamic> getListThucAnThem() async{
+    var arr =[];
+    QuerySnapshot snapshot = await _fireStoreInstance.collection("ThucAn").get();
+    final List<DocumentSnapshot> documents = snapshot.docs;
+    User user = FirebaseAuth.instance.currentUser;
+    documents.forEach((element) {
+      Map<String, dynamic> dataElement=element.data();
+      if (dataElement['user']==user.uid) {
+        dataElement["id"]=element.id;
+        arr.add(dataElement);
+      }
     });
 
     return arr;
@@ -37,6 +47,23 @@ class FireStoreList {
       Map<String, dynamic> dataElement = element.data();
       dataElement["id"]=element.id;
       arr.add(dataElement);
+    });
+
+    return arr;
+  }
+
+  // get tapluyenthem in exercisePage
+  Future<dynamic> getListExerciseThem() async{
+    var arr =[];
+    QuerySnapshot snapshot = await _fireStoreInstance.collection("tapluyen").get();
+    final List<DocumentSnapshot> documents = snapshot.docs;
+    User user = FirebaseAuth.instance.currentUser;
+    documents.forEach((element) {
+      Map<String, dynamic> dataElement = element.data();
+      if (dataElement['user']==user.uid) {
+        dataElement["id"]=element.id;
+        arr.add(dataElement);
+      }
     });
 
     return arr;

@@ -295,7 +295,29 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                       ),
                     ),
                   ),
-                )
+                ),
+                this.widget.keyFunctionBtn == "Add" ? Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child: SizedBox(
+                    height: 55,
+                    width: 260,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.red[600],
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)
+                          )
+                      ),
+                      onPressed: _onDeleteTuChon,
+                      child: Text(
+                        'Xóa tự chọn',
+                        style: TextStyle(
+                            fontSize: 22
+                        ),
+                      ),
+                    ),
+                  ),
+                ) : Container(),
               ],
             ),
           ),
@@ -333,4 +355,11 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
     });
   }
 
+  void _onDeleteTuChon() {
+    listBloc.deleteThucAnTuChon(maps["id"], (){
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 1,))
+      );
+    });
+  }
 }

@@ -23,8 +23,41 @@ class ListBloc {
     return listThucAnForSearch;
   }
 
+  // get all list ThucAnThem
+  Future<List<dynamic>> getListThucAnThem(String searchText) async {
+    var arr = await list.getListThucAnThem();
+    if (searchText.trim()=="") {
+      List<dynamic> listThucAnThemFull = arr.toList();
+      return listThucAnThemFull;
+    }
+    var filterArr = [];
+    arr.forEach((thucAnThem) {
+      if (thucAnThem["name"].toLowerCase().contains(searchText.trim().toLowerCase()))
+        filterArr.add(thucAnThem);
+    });
+    List<dynamic> listThucAnThemForSearch = filterArr.toList();
+    return listThucAnThemForSearch;
+  }
+
+  // get all list tapluyen
   Future<List<dynamic>> getListExercise(String searchText) async {
     var arr = await list.getListExercise();
+    if (searchText.trim()=="") {
+      List<dynamic> listExerciseFull = arr.toList();
+      return listExerciseFull;
+    }
+    var filterArr = [];
+    arr.forEach((exercise) {
+      if (exercise["name"].toLowerCase().contains(searchText.trim().toLowerCase()))
+        filterArr.add(exercise);
+    });
+    List<dynamic> listExerciseForSearch = filterArr.toList();
+    return listExerciseForSearch;
+  }
+
+  // get all list tapluyenthem
+  Future<List<dynamic>> getListExerciseThem(String searchText) async {
+    var arr = await list.getListExerciseThem();
     if (searchText.trim()=="") {
       List<dynamic> listExerciseFull = arr.toList();
       return listExerciseFull;
@@ -60,6 +93,10 @@ class ListBloc {
     _firAuth.deleteThucAnUser(thucAnUserDocId, onSuccess);
   }
 
+  void deleteThucAnTuChon(String thucAnTuChonId, Function onSuccess) {
+    _firAuth.deleteThucAnTuChon(thucAnTuChonId, onSuccess);
+  }
+
   Future<double> sumOfCaloThucAnUser() async {
     var arr = await _firAuth.getListThucAnForUser();
     return arr.fold(0.0, (value, element) => value+(element["calo"]+.0));
@@ -68,6 +105,10 @@ class ListBloc {
   // add tapluyen chọn trong dialog "add"
   void addTapluyenChosen(Map<String, dynamic> tapluyenchosen, Function onSuccess) {
     _firAuth.addTapLuyenChosen(tapluyenchosen, onSuccess);
+  }
+
+  void deleteTapLuyenTuChon(String tapLuyenTuChonId, Function onSuccess) {
+    _firAuth.deleteTapLuyenTuChon(tapLuyenTuChonId, onSuccess);
   }
 
   // get List Tapluyen which user chose
