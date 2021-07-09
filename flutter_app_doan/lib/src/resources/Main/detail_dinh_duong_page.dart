@@ -296,7 +296,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                     ),
                   ),
                 ),
-                this.widget.keyFunctionBtn == "Add" ? Container(
+                (this.widget.keyFunctionBtn == "Add" && this.widget.food.containsKey("user")) ? Container(
                   margin: EdgeInsets.only(top: 20),
                   child: SizedBox(
                     height: 55,

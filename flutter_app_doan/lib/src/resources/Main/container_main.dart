@@ -506,7 +506,7 @@ class _ContainerMainState extends State<ContainerMain> {
                 label: "Home",
                 backgroundColor: Colors.blue),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
+                icon: Icon(Icons.set_meal_rounded),
                 label: "Meal",
                 backgroundColor: Colors.blue),
             BottomNavigationBarItem(
