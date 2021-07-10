@@ -200,12 +200,25 @@ class _ExercisePageState extends State<ExercisePage> {
   }
 
   void _onConfirmToAddListTapLuyen() {
+    DateTime timeChanged=DateTime.utc(DateTime.parse(GlobalList.time).year, DateTime.parse(GlobalList.time).month, DateTime.parse(GlobalList.time).day);
+    DateTime timeNow=DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     if (GlobalList.tapLuyenDaChon.length>0) {
-      itemCheckedBloc.addlistTapLuyenDaChon((){
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
+      if (timeChanged.compareTo(timeNow)>=0) {
+        itemCheckedBloc.addlistTapLuyenDaChon((){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
+          );
+        });
+      }
+      else {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                duration: Duration(seconds: 2),
+                content: Text('Can not add Exercise at previous days!!')
+            )
         );
-      });
+      }
     }
     else {
       Navigator.pop(context);

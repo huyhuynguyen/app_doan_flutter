@@ -151,12 +151,12 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, item) {
                     Map<String, dynamic> exercise=snapshot.data[item];
+                    DateTime timeChanged=DateTime.utc(DateTime.parse(GlobalList.time).year, DateTime.parse(GlobalList.time).month, DateTime.parse(GlobalList.time).day);
+                    DateTime timeNow=DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
                     return Stack(
                       children: [
                         InkWell(
-                          onTap: () {
-                            createDialogToUpdate(exercise);
-                          },
+                          onTap: (timeChanged.compareTo(timeNow)>=0) ? () => createDialogToUpdate(exercise) : null,
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Colors.white,
@@ -217,7 +217,7 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
                             ),
                           ),
                         ),
-                        Positioned(
+                        (timeChanged.compareTo(timeNow)>=0) ? Positioned(
                             right: 12,
                             child: Container(
                                 height: 35,
@@ -244,7 +244,7 @@ class _ListExerciseUserState extends State<ListExerciseUser> {
                                   },
                                 )
                             )
-                        )
+                        ) : Container()
                       ],
                     );
                   }

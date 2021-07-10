@@ -9,6 +9,8 @@ import 'package:flutter_app_doan/src/resources/Main/list_thuc_an.dart';
 import 'package:flutter_app_doan/src/resources/Main/list_thuc_an_user.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttericon/entypo_icons.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,6 +21,16 @@ class _HomePageState extends State<HomePage> {
   AuthBloc authBloc = new AuthBloc();
   ListBloc _listBloc = new ListBloc();
   CalcBloc calcBloc = new CalcBloc();
+
+  List<_WeightData> _weightdata=[
+    _WeightData(weight: 65, dates: DateFormat("yyyy-MM-dd").format(DateTime.parse("2021-07-02"))),
+    _WeightData(weight: 60, dates: DateFormat("yyyy-MM-dd").format(DateTime.parse("2021-07-03"))),
+    // _WeightData(weight: 59, dates: DateFormat("yyyy-MM-dd").format(DateTime.parse("2021-07-04"))),
+    // _WeightData(weight: 62, dates: DateFormat("yyyy-MM-dd").format(DateTime.parse("2021-07-05"))),
+    // _WeightData(weight: 65, dates: DateFormat("yyyy-MM-dd").format(DateTime.parse("2021-07-06"))),
+    // _WeightData(weight: 65, dates: DateFormat("yyyy-MM-dd").format(DateTime.parse("2021-07-07"))),
+    // _WeightData(weight: 65, dates: DateFormat("yyyy-MM-dd").format(DateTime.parse("2021-07-08"))),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                            Container(
+                              Container(
                               child: FutureBuilder(
                                 future: authBloc.getValueUser('weight'),
                                 builder: (context, snapshot) {
@@ -114,8 +126,8 @@ class _HomePageState extends State<HomePage> {
                                 },
                               ),
                             ),
-                            SizedBox(height: 5,),
-                            Container(
+                              SizedBox(height: 5,),
+                              Container(
                               child: FutureBuilder(
                                 future: authBloc.getValueUser('height'),
                                 builder: (context, snapshot) {
@@ -131,7 +143,30 @@ class _HomePageState extends State<HomePage> {
                                   return CircularProgressIndicator();
                                 },
                               ),
-                            )
+                            ),
+                              SizedBox(height: 5,),
+                              Container(
+                                child: FutureBuilder(
+                                  future: calcBloc.BMICalc(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      String nhanxet="Bình thường";
+                                      if (snapshot.data < 18.5)
+                                        nhanxet="Thiếu cân";
+                                      if (snapshot.data > 23)
+                                        nhanxet="Thừa cân";
+                                      return Text(
+                                        'Nhận xét: $nhanxet',
+                                        style: TextStyle(
+                                          color: Colors.red[500],
+                                          fontSize: 18,
+                                        ),
+                                      );
+                                    }
+                                    return CircularProgressIndicator();
+                                  },
+                                ),
+                              ),
                             ]
                           ),
                           Column(
@@ -410,7 +445,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         ListExerciseUser(),
                         Container(
-                          margin: EdgeInsets.only(top: 20, bottom: 70),
+                          margin: EdgeInsets.only(top: 20, bottom: 20),
                           padding: EdgeInsets.all(20),
                           height: 185,
                           width: double.infinity,
@@ -430,6 +465,49 @@ class _HomePageState extends State<HomePage> {
                             fit: BoxFit.contain,
                           ),
                         ),
+                        SizedBox(
+                          height: 400,
+                          child: Container(
+                            margin: EdgeInsets.only(top: 0, bottom: 80),
+                            height: 185,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 10),
+                                  blurRadius: 30,
+                                  color: kShadowColor,
+                                ),
+                              ],
+                            ),
+                            child: SfCartesianChart(
+                              title: ChartTitle(text: "Weight"),
+                              legend: Legend(
+                                  isVisible: true,
+                                  position: LegendPosition.bottom
+                              ),
+                              tooltipBehavior: TooltipBehavior(
+                                  enable: true,
+                              ),
+                              primaryXAxis: CategoryAxis(),
+                              series: <CartesianSeries>[
+                                LineSeries<_WeightData, String>(
+                                    dataSource: _weightdata,
+                                    xValueMapper: (_WeightData _weights, _) => _weights.dates,
+                                    yValueMapper: (_WeightData _weights, _) => _weights.weight,
+                                    name: 'Weight',
+                                    dataLabelSettings: DataLabelSettings(isVisible: true),
+                                    enableTooltip: true,
+                                    markerSettings: MarkerSettings(
+                                        isVisible: true
+                                    )
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -443,6 +521,13 @@ class _HomePageState extends State<HomePage> {
       )
     );
   }
+}
+
+class _WeightData {
+  _WeightData({this.weight, this.dates});
+
+  final double weight;
+  final String dates;
 }
 
 class MyClipper extends CustomClipper<Path>{

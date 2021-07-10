@@ -22,6 +22,8 @@ class _ListExerciseState extends State<ListExercise> {
   String timeCurrent="";
 
   createDialogToAdd(Map<String, dynamic> exercise) {
+    DateTime timeChanged=DateTime.utc(DateTime.parse(GlobalList.time).year, DateTime.parse(GlobalList.time).month, DateTime.parse(GlobalList.time).day);
+    DateTime timeNow=DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     calcCaloTimeBloc = new CalcCaloTimeBloc();
     TextEditingController _timeController = new TextEditingController();
     timeIni=exercise["time"];
@@ -115,26 +117,23 @@ class _ListExerciseState extends State<ListExercise> {
                     ),
                     TextButton(
                       onPressed: (){
-                        // print('GlobalList.time: ${GlobalList.time}');
-                        // Navigator.pop(context);
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
-                        // );
-                        if (calcCaloTimeBloc.checkTimeChange(int.tryParse(_timeController.text) ?? 0)) {
-                          exercise["time"]=int.parse(_timeController.text.trim());
-                          exercise["calo"]=double.parse(double.parse(exercise["calo"]).toStringAsFixed(0));
-                          // print('GlobalList.time: ${GlobalList.time}');
-                          // Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
-                          // );
-                          listBloc.addTapluyenChosen(exercise, (){
-                            print(GlobalList.time);
-                            // GlobalList.time=timeCurrent;
-                            Navigator.pop(context);
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (context) => ContainerMain(indexTab: 0,))
-                            // );
-                          });
+                        if (timeChanged.compareTo(timeNow)>=0) {
+                          if (calcCaloTimeBloc.checkTimeChange(int.tryParse(_timeController.text) ?? 0)) {
+                            exercise["time"]=int.parse(_timeController.text.trim());
+                            exercise["calo"]=double.parse(double.parse(exercise["calo"]).toStringAsFixed(0));
+                            listBloc.addTapluyenChosen(exercise, (){
+                              Navigator.pop(context);
+                            });
+                          }
+                        }
+                        else {
+                          ScaffoldMessenger.of(this.context).showSnackBar(
+                              SnackBar(
+                                  duration: Duration(seconds: 2),
+                                  content: Text('Can not add Exercise at previous days!!')
+                              )
+                          );
+                          Navigator.pop(context);
                         }
                       },
                       child: Text("Add"),
@@ -167,6 +166,7 @@ class _ListExerciseState extends State<ListExercise> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, item) {
                     Map<String, dynamic> exercise = snapshot.data[item];
+
                     return Stack(
                       children: [
                         InkWell(

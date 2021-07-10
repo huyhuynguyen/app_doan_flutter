@@ -4,6 +4,7 @@ import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
 import 'package:flutter_app_doan/src/resources/Main/detail_dinh_duong_page.dart';
 import 'package:flutter_app_doan/src/resources/dialog/loading_dialog.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 
 class ListThucAnUser extends StatefulWidget {
   @override
@@ -29,6 +30,8 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, item) {
                     Map<String, dynamic> thucAn=snapshot.data[item];
+                    DateTime timeChanged=DateTime.utc(DateTime.parse(GlobalList.time).year, DateTime.parse(GlobalList.time).month, DateTime.parse(GlobalList.time).day);
+                    DateTime timeNow=DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
                     return Stack(
                       children: [
                         InkWell(
@@ -98,7 +101,7 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                             ),
                           ),
                         ),
-                        Positioned(
+                        (timeChanged.compareTo(timeNow)>=0) ? Positioned(
                             right: 12,
                             child: Container(
                                 height: 35,
@@ -126,7 +129,7 @@ class _ListThucAnUserState extends State<ListThucAnUser> {
                                   },
                                 )
                             )
-                        )
+                        ) : Container()
                       ],
                     );
                   }

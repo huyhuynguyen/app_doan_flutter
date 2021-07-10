@@ -4,6 +4,7 @@ import 'package:flutter_app_doan/src/blocs/calc_bloc.dart';
 import 'package:flutter_app_doan/src/blocs/list_bloc.dart';
 import 'package:flutter_app_doan/src/resources/Main/container_main.dart';
 import 'package:flutter_app_doan/src/resources/Main/home_page.dart';
+import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
 
 
 class DetailDinhDuongPage extends StatefulWidget {
@@ -19,6 +20,9 @@ class DetailDinhDuongPage extends StatefulWidget {
 class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
   CalcBloc calcBloc = new CalcBloc();
   ListBloc listBloc = new ListBloc();
+
+  DateTime timeChanged=DateTime.utc(DateTime.parse(GlobalList.time).year, DateTime.parse(GlobalList.time).month, DateTime.parse(GlobalList.time).day);
+  DateTime timeNow=DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   // get instance food variable
   TextEditingController get _soluongController => TextEditingController(text: widget.food["soluong"].toStringAsFixed(0).toString());
@@ -276,7 +280,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                     ],
                   ),
                 ),
-                Container(
+                (timeChanged.compareTo(timeNow)>=0) ? Container(
                   child: SizedBox(
                     height: 55,
                     width: 260,
@@ -295,7 +299,7 @@ class _DetailDinhDuongPageState extends State<DetailDinhDuongPage> {
                       ),
                     ),
                   ),
-                ),
+                ) : Container(),
                 (this.widget.keyFunctionBtn == "Add" && this.widget.food.containsKey("user")) ? Container(
                   margin: EdgeInsets.only(top: 20),
                   child: SizedBox(

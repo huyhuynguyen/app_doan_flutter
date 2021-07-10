@@ -371,7 +371,30 @@ class _ProfilePageState extends State<ProfilePage> {
                                             return CircularProgressIndicator();
                                           },
                                         ),
-                                      )
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(top: 5),
+                                        child: FutureBuilder(
+                                          future: calcBloc.BMICalc(),
+                                          builder: (context, snapshot) {
+                                            String nhanxet="Bình thường";
+                                            if (snapshot.data < 18.5)
+                                              nhanxet="Thiếu cân";
+                                            if (snapshot.data > 23)
+                                              nhanxet="Thừa cân";
+                                            if (snapshot.connectionState == ConnectionState.done) {
+                                              return Text(
+                                                '$nhanxet',
+                                                style: TextStyle(
+                                                  color: Colors.red[700],
+                                                  fontSize: 16,
+                                                ),
+                                              );
+                                            }
+                                            return CircularProgressIndicator();
+                                          },
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),

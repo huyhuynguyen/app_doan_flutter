@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app_doan/src/resources/selectedTick/global_list.dart';
+import 'package:intl/intl.dart';
 
 class FirAuth {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,6 +19,7 @@ class FirAuth {
   }
 
   void createUserDB(String uid, String name, String yearOfBirth, String gender, Function onSuccess, Function(String) onError) {
+    // var weightArray=[];
     var user={
       "name" : name,
       "year of birth": yearOfBirth,
@@ -57,6 +59,25 @@ class FirAuth {
 
   void updateCurrentUser(int height, int weight, Function onSuccess) async {
     User user = _auth.currentUser;
+    // DocumentReference reference = firestoreInstance.collection("user").doc(user.uid);
+    // DocumentSnapshot snapshot = await reference.get();
+    //
+    // Map<String, dynamic> maps=snapshot.data();
+    // var weightArray=maps["weightArray"];
+    // var result=false;
+    // for (var element in weightArray) {
+    //   if (element["date"]==DateFormat("yyyy-MM-dd").format(DateTime.now())) {
+    //     element["weight"]=weight;
+    //     result=true;
+    //   }
+    // }
+    // if (!result) {
+    //   Map<String, dynamic> weightDate={
+    //     "weight" : weight,
+    //     "date" : DateFormat("yyyy-MM-dd").format(DateTime.now())
+    //   };
+    //   weightArray.add(weightDate);
+    // }
 
     await firestoreInstance
         .collection("user")
